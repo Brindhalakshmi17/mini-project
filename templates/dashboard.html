@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}"> <!-- Link to your CSS file -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Welcome to Dashboard</h2>
+        </div>
+        <div class="logout-btn">
+            <form action="/logout" method="POST">
+                <button class="submit-btn" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        swal("","Successfully Logged In", "success");
+    </script>  
+</body>
+</html>
+
