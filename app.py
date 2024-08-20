@@ -1,8 +1,7 @@
 from flask import Flask,jsonify, render_template, request, redirect, url_for, session
 import pyrebase
 import re
-import requests
-import urllib.parse
+import urllib
 from functools import wraps
 import firebase_admin
 from firebase_admin import credentials,db
@@ -12,15 +11,7 @@ app.secret_key = "YourSecretKey"
 
 # Initialize Firebase
 firebaseConfig = {
-  "apiKey": "AIzaSyDFJxeQnDGv7jS9zrwslQ3h2vvNbEB-5bI",
-  "authDomain": "activityplus-b900e.firebaseapp.com",
-  "databaseURL": "https://activityplus-b900e-default-rtdb.firebaseio.com",
-  "projectId": "activityplus-b900e",
-  "storageBucket": "activityplus-b900e.appspot.com",
-  "messagingSenderId": "974798997443",
-  "appId": "1:974798997443:web:51bb2a2d85b0e294d31f76",
-  "measurementId": "G-L3WGTS278B",
-  "databaseURL":"https://activityplus-b900e-default-rtdb.firebaseio.com/"
+  #paste here 1
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -28,7 +19,7 @@ database = firebase.database()
 
 cred = credentials.Certificate("firebase_Key.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://userdb-172001-default-rtdb.firebaseio.com/'
+    #paste here 2
 })
 
 # Email validation function
@@ -56,35 +47,74 @@ def admin_required(f):
 def admin_users():
     return render_template('admin.html')
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        name = request.form['name']
+        register_number = request.form['register_number']
+        phone_number = request.form['phone_number']
+        
+        
+        if not is_valid_email(email):
+            return "Please use your SRMIST email for sign Up"
+        
+        try:
+            encoded = urllib.parse.quote(email, safe="")
+            
+            users = database.child('users').get()
+            if users.each():
+                for user in users.each():
+                    user_data = user.val()
+                    if user_data.get('email') == email:
+                        return "This email is already signed up. Please go back to the login page."
+            
+        except Exception as e:
+            return str(e)      
+        
+        try:
+            user = auth.create_user_with_email_and_password(email, password)
+            uid = user['localId']
+
+            user_data = {
+                'name': name,
+                'register_number': register_number,
+                'phone_number': phone_number,
+                'email': email,
+            }
+            database.child('users').child(uid).set(user_data)
+
+            return redirect(url_for('login'))
+        except Exception as e:
+            return render_template('signup.html', error=str(e))
+
+    return render_template('signup.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        if not is_valid_email(email):
-            return "Please use your SRMIST email for sign Up"
+
         try:
             user = auth.sign_in_with_email_and_password(email, password)
-            # session['user'] = {
-            #     'idToken': user['idToken'],
-            #     'email': email
-            # }
+            session['user'] = {
+                'idToken': user['idToken'],
+                'email': email
+            }
             admins = ['bs1329@srmist.edu.in']
-            ref = db.reference('users/' + user.uid)
-            user_data = ref.get()
-            if user_data['email_id'] == email and user_data['password'] == password:
-                if email in admins:
-                    return render_template('admin.html')
-                return redirect(url_for('dashboard', uid=user.uid))
+            if email in admins:
+                return render_template('admin.html')
             else:
-                return jsonify({"error": "Invalid email or password"}), 401
+                return redirect(url_for('dashboard'))
         except Exception as e:
-            return jsonify({"error": str(e)}), 500
+            return render_template('login.html', error=str(e))
 
     return render_template('login.html')
 
 @app.route('/dashboard')
-def dashboard(uid):
+def dashboard():
     if 'user' in session:
         user = session['user']
         return render_template('dashboard.html', user=user)
