@@ -3,12 +3,19 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 .container {
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 20px;
+    max-width: 600px;
+    margin: 15px auto;
+    padding: 10px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+.image-container {
+    margin-bottom: 10px; /* Adds space below the image */
+}
+.signin-image {
+    max-width: 100%; /* Makes sure the image scales with the container */
+    height: auto; /* Keeps the image's aspect ratio */
 }
 .submit-btn {
     background-color: #007bff;
