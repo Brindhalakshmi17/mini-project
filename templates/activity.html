@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Activities</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='activity.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <!-- Bootstrap Nav Tabs -->
+    <ul class="nav nav-tabs" id="eventTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="event-tab" data-bs-toggle="tab" data-bs-target="#event" type="button" role="tab" aria-controls="event" aria-selected="true">Event</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="course-tab" data-bs-toggle="tab" data-bs-target="#course" type="button" role="tab" aria-controls="course" aria-selected="false">Course Completed</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="eventTabContent">
+        <!-- Event Form (Technical & Non-Technical Combined) -->
+        <div class="tab-pane fade show active" id="event" role="tabpanel" aria-labelledby="event-tab">
+            <form class="mt-4">
+                <!-- Select Event Type (Technical or Non-Technical) -->
+                <div class="mb-3">
+                    <label class="form-label">Select Event Type</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="eventType" id="technicalEvent" value="technical" required>
+                        <label class="form-check-label" for="technicalEvent">Technical Event</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="eventType" id="nonTechnicalEvent" value="non-technical" required>
+                        <label class="form-check-label" for="nonTechnicalEvent">Non-Technical Event</label>
+                    </div>
+                </div>
+
+                <!-- Name of the Event -->
+                <div class="mb-3">
+                    <label for="eventName" class="form-label">Name of the Event</label>
+                    <input type="text" class="form-control" id="eventName" placeholder="Enter the event name" required>
+                </div>
+
+                <!-- Type of Participation -->
+                <div class="mb-3">
+                    <label for="participationType" class="form-label">Type of Participation</label>
+                    <input type="text" class="form-control" id="participationType" placeholder="e.g. Team of 4 or Individual" required>
+                </div>
+
+                <!-- Achievement Level -->
+                <div class="mb-3">
+                    <label for="achievementLevel" class="form-label">Achievement Level</label>
+                    <input type="text" class="form-control" id="achievementLevel" placeholder="e.g. Winner, Runner-up, Participation" required>
+                </div>
+
+                <!-- Event Organizer -->
+                <div class="mb-3">
+                    <label for="organizer" class="form-label">Event Organizer</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="organizerOptions" id="srmOrganizer" value="within SRM" required>
+                        <label class="form-check-label" for="srmOrganizer">Within SRM</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="organizerOptions" id="otherOrganizer" value="others" required>
+                        <label class="form-check-label" for="otherOrganizer">Others</label>
+                    </div>
+                    <input type="text" class="form-control mt-2" id="otherOrganizerName" placeholder="Specify if others" style="display:none;">
+                </div>
+
+                <!-- Dates of Participation -->
+                <div class="mb-3">
+                    <label for="participationDates" class="form-label">Dates of Participation</label>
+                    <input type="date" class="form-control" id="participationDates" required>
+                </div>
+
+                <!-- Venue/Location -->
+                <div class="mb-3">
+                    <label for="venueLocation" class="form-label">Venue/Location</label>
+                    <input type="text" class="form-control" id="venueLocation" placeholder="Enter the venue/location" required>
+                </div>
+
+                <!-- Certificate Upload -->
+                <div class="mb-3">
+                    <label for="certificate" class="form-label">Upload Certificate</label>
+                    <input class="form-control" type="file" id="certificate" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <!-- Course Completed Form -->
+        <div class="tab-pane fade" id="course" role="tabpanel" aria-labelledby="course-tab">
+            <form class="mt-4">
+                <!-- Course Name -->
+                <div class="mb-3">
+                    <label for="courseName" class="form-label">Course Name</label>
+                    <input type="text" class="form-control" id="courseName" placeholder="Enter the course name" required>
+                </div>
+
+                <!-- Skills Gained -->
+                <div class="mb-3">
+                    <label for="skillsGained" class="form-label">Skills Gained</label>
+                    <input type="text" class="form-control" id="skillsGained" placeholder="Enter the skills gained" required>
+                </div>
+
+                <!-- Platform -->
+                <div class="mb-3">
+                    <label for="platform" class="form-label">Platform</label>
+                    <input type="text" class="form-control" id="platform" placeholder="Enter the platform name" required>
+                </div>
+
+                <!-- Certificate Upload -->
+                <div class="mb-3">
+                    <label for="courseCertificate" class="form-label">Upload Certificate (if applicable)</label>
+                    <input class="form-control" type="file" id="courseCertificate">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
