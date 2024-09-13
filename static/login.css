@@ -1,0 +1,39 @@
+/* Custom Styles for Login Page */
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+}
+
+.card-header h2 {
+    margin-bottom: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.btn {
+    border-radius: 5px;
+}
+
+.card-footer p {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.card-footer a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.card-footer a:hover {
+    text-decoration: underline;
+}

@@ -14,17 +14,30 @@
             <img src="{{ url_for('static', filename='image.jpg') }}" alt="Sign-Up Image" class="signin-image">
         </div>
 
-
         <div class="text-center mb-4">
             <h2>Sign Up</h2>
         </div>
+        
+        <!-- Flash messages for errors -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-dismissible fade show">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
         <form action="/signup" method="POST">
             <div class="mb-3">
                 <input type="text" class="form-control" name="name" placeholder="Name" required>
             </div>
             <div class="mb-3">
                 <input type="email" class="form-control" name="email" placeholder="Email" required>
-            </div>           
+            </div>
             <div class="mb-3">
                 <input type="text" class="form-control" name="register_number" placeholder="Register Number" required>
             </div>
@@ -32,7 +45,29 @@
                 <input type="tel" class="form-control" name="phone_number" placeholder="Phone Number" required>
             </div>
             <div class="mb-3">
+                <select class="form-control" name="department" required>
+                    <option value="">Select Department</option>
+                    <option value="MCA">MCA</option>
+                    <option value="BCA">BCA</option>
+                    <option value="MSc ADS">MSc ADS</option>
+                    <option value="MSc IT">MSc IT</option>
+                    <option value="BSc CS">BSc CS</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" name="batch" placeholder="Batch (A, B, C...)" required>
+            </div>
+            <div class="mb-3">
+                <input type="number" class="form-control" name="year_start" placeholder="Year of Start" required>
+            </div>
+            <div class="mb-3">
+                <input type="number" class="form-control" name="year_end" placeholder="Year of End" required>
+            </div>
+            <div class="mb-3">
                 <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="retype_password" placeholder="Retype Password" required>
             </div>
             <button type="submit" class="btn btn-primary w-100 submit-btn">Sign Up</button>
         </form>
