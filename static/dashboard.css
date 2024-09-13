@@ -1,103 +1,57 @@
-/* General Styles */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+/* dashboard.css */
+
+/* Basic Reset */
+body, h1, h2, p {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light background color */
+    color: #333; /* Dark text color */
 }
 
 .container {
-    max-width: 900px;
-    margin: 50px auto;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
 }
 
-.card {
-    background-color: #ffffff;
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-details {
+    background: #ffffff;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-}
-
-.card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.card-header {
-    background-color: #007bff;
-    color: #ffffff;
-    padding: 20px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.card-body {
-    padding: 20px;
-    color: #333;
-    line-height: 1.6;
-}
-
-.card-body h5 {
-    font-size: 18px;
     margin-bottom: 20px;
-    color: #007bff;
+}
+
+.sections {
+    text-align: center;
+}
+
+.section-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.section-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
     font-weight: bold;
 }
 
-.list-group-item {
-    border: none;
-    padding: 15px 10px;
-    background-color: #f8f9fa;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.list-group-item strong {
-    color: #007bff;
-}
-
-.card-footer {
-    background-color: #f8f9fa;
-    padding: 20px;
-    text-align: center;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-.btn {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    .card-header {
-        font-size: 20px;
-    }
-
-    .card-body h5 {
-        font-size: 16px;
-    }
-
-    .list-group-item {
-        font-size: 14px;
-    }
+.section-btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
 }
