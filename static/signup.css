@@ -1,54 +1,53 @@
+/* Add a black background to the body */
 body {
-    background-color: #f8f9fa;
+    background-color: #000000;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
+    color: white; /* Ensure text is visible on black background */
 }
-.container {
-    max-width: 600px;
-    margin: 15px auto;
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Center align all content inside container */
-}
-.image-container {
-    margin-bottom: 10px; /* Adds space below the image */
-    text-align: center; /* Center the image */
-}
-.logo {
-    max-width: 500px; /* Adjust size as needed */
+
+/* Center logo styling */
+.center-logo {
+    max-width: 700px; /* Adjust size as needed */
     height: auto;
-    display: block;
-    margin: 0 auto; /* Center the logo */
 }
-.center-text {
-    margin-bottom: 20px; /* Add space below the text */
+
+/* Paragraph styling */
+.project-description {
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #ffffff; /* White text color for the paragraph */
 }
-.signin-image {
-    max-width: 100%; /* Makes sure the image scales with the container */
-    height: auto; /* Keeps the image's aspect ratio */
-}
-.submit-btn {
-    background-color: #007bff;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.submit-btn:hover {
-    background-color: #0056b3;
-}
-button {
+
+/* Button styles */
+.btn {
     padding: 10px 20px;
     font-size: 16px;
     margin: 10px;
     cursor: pointer;
     border: none;
-    background-color: #4CAF50; /* Green */
-    color: white;
     border-radius: 5px;
 }
 
-button:hover {
-    background-color: #45a049;
+/* Register Button */
+.btn-outline-success {
+    background-color: #007bff; /* Green background for Register */
+    color: white;
+}
+
+.btn-outline-success:hover {
+    background-color: #218838;
+}
+
+/* Login Button */
+.btn-outline-primary {
+    background-color: #007bff; /* Blue background for Login */
+    color: white;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0056b3;
 }
