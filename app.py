@@ -4,14 +4,17 @@ import re
 import urllib
 from functools import wraps
 import firebase_admin
-from firebase_admin import credentials, db
+from firebase_admin import credentials, db, storage
+import os
+import uuid
+
 
 app = Flask(__name__)
 app.secret_key = "YourSecretKey"
 
 # Initialize Firebase
 firebaseConfig = {
-    #paste-1
+    #paste -1
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -19,12 +22,8 @@ database = firebase.database()
 
 cred = credentials.Certificate("firebase_Key.json")
 firebase_admin.initialize_app(cred, {
-    #paste-2
+      #paste -2
 })
-
-# Email validation function
-def is_valid_email(email):
-    return re.match(r"[^@]+@srmist\.edu\.in", email)
 
 # Admin check decorator
 def admin_required(f):
@@ -40,6 +39,9 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# Email validation function
+def is_valid_email(email):
+    return re.match(r"[^@]+@srmist\.edu\.in", email)
 # Routes
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
@@ -176,46 +178,89 @@ def upload_activities():
     if 'user' not in session:
         return redirect(url_for('login'))
 
+    user_id = session.get('user')['localId']
+
     if request.method == 'POST':
-        if request.form.get('eventType'):  # Event form submission
-            event_type = request.form['eventType']
-            event_name = request.form['eventName']
-            participation_type = request.form['participationType']
-            achievement_level = request.form['achievementLevel']
-            organizer = request.form['organizerOptions']
-            other_organizer_name = request.form['otherOrganizerName']
-            participation_dates = request.form['participationDates']
-            venue_location = request.form['venueLocation']
+        form_type = request.form.get('formType')  # Determine whether it's event or course form
 
-            # Save the event data in Firebase
-            data = {
-                "event_type": event_type,
-                "event_name": event_name,
-                "participation_type": participation_type,
-                "achievement_level": achievement_level,
-                "organizer": organizer,
-                "other_organizer_name": other_organizer_name,
-                "participation_dates": participation_dates,
-                "venue_location": venue_location
-            }
-            db.child("activities").push(data, session['user'])  # Push data to Firebase under the user's node
+        if form_type == 'event':
+            # Handle event form submission
+            event_type = request.form.get('eventType')
+            event_name = request.form.get('eventName')
+            participation_type = request.form.get('participationType')
+            achievement_level = request.form.get('achievementLevel')
+            organizer = request.form.get('organizerOptions')
+            other_organizer_name = request.form.get('otherOrganizerName', '')
+            participation_dates = request.form.get('participationDates')
+            venue_location = request.form.get('venueLocation')
+            certificate = request.files.get('certificate')
 
-        elif request.form.get('courseName'):  # Course form submission
-            course_name = request.form['courseName']
-            skills_gained = request.form['skillsGained']
-            platform = request.form['platform']
+            if event_type and event_name and participation_type and participation_dates and venue_location:
+                activity_data = {
+                    "event_type": event_type,
+                    "event_name": event_name,
+                    "participation_type": participation_type,
+                    "achievement_level": achievement_level,
+                    "organizer": organizer,
+                    "other_organizer_name": other_organizer_name,
+                    "participation_dates": participation_dates,
+                    "venue_location": venue_location
+                }
 
-            # Save the course data in Firebase
-            data = {
-                "course_name": course_name,
-                "skills_gained": skills_gained,
-                "platform": platform
-            }
-            db.child("courses").push(data, session['user'])
+                # Handle certificate upload
+                # if certificate:
+                #     cert_filename = str(uuid.uuid4()) + os.path.splitext(certificate.filename)[1]
+                #     cert_blob = storage.bucket().blob(f"certificates/{cert_filename}")
+                #     cert_blob.upload_from_file(certificate)
+                #     cert_url = cert_blob.public_url
+                #     activity_data['certificate_url'] = cert_url
 
-        return "Activity/Course submitted successfully!"
-    
+                # Save to Firebase Realtime Database
+                db.reference(f'users/{user_id}/events').push(activity_data)
+
+        elif form_type == 'course':
+            # Handle course form submission
+            course_name = request.form.get('courseName')
+            skills_gained = request.form.get('skillsGained')
+            platform = request.form.get('platform')
+            completion_date = request.form.get('completionDate')
+            course_certificate = request.files.get('courseCertificate')
+
+            if course_name and skills_gained and platform and completion_date:
+                course_data = {
+                    "course_name": course_name,
+                    "skills_gained": skills_gained,
+                    "platform": platform,
+                    "completion_date": completion_date
+                }
+
+                # Handle course certificate upload
+                # if course_certificate:
+                #     cert_filename = str(uuid.uuid4()) + os.path.splitext(course_certificate.filename)[1]
+                #     cert_blob = storage.bucket().blob(f"course_certificates/{cert_filename}")
+                #     cert_blob.upload_from_file(course_certificate)
+                #     cert_url = cert_blob.public_url
+                #     course_data['certificate_url'] = cert_url
+
+                # Save to Firebase Realtime Database
+                db.reference(f'users/{user_id}/courses').push(course_data)
+
+        flash("Activity uploaded successfully!", "success")
+        return redirect(url_for('upload_activities'))
+
     return render_template('activity.html')
+    
+
+    return render_template('activity.html')
+@app.route('/test_firebase', methods=['GET'])
+def test_firebase():
+    try:
+        ref = db.reference('test_data')
+        ref.set({"message": "Hello, Firebase!"})
+        return "Data written successfully"
+    except Exception as e:
+        return f"Error: {str(e)}"
+
 
 if __name__ == '__main__':
     app.run(debug=True)
