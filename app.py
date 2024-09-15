@@ -11,7 +11,7 @@ app.secret_key = "YourSecretKey"
 
 # Initialize Firebase
 firebaseConfig = {
-    # Paste credentials
+    #paste-1
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -19,7 +19,7 @@ database = firebase.database()
 
 cred = credentials.Certificate("firebase_Key.json")
 firebase_admin.initialize_app(cred, {
-    # Paste credentials
+    #paste-2
 })
 
 # Email validation function
@@ -169,6 +169,53 @@ def logout():
 @app.route('/')
 def index():
     return render_template('index.html')
+
+# Route for uploading activities (only accessible to logged-in users)
+@app.route('/upload_activities', methods=['GET', 'POST'])
+def upload_activities():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        if request.form.get('eventType'):  # Event form submission
+            event_type = request.form['eventType']
+            event_name = request.form['eventName']
+            participation_type = request.form['participationType']
+            achievement_level = request.form['achievementLevel']
+            organizer = request.form['organizerOptions']
+            other_organizer_name = request.form['otherOrganizerName']
+            participation_dates = request.form['participationDates']
+            venue_location = request.form['venueLocation']
+
+            # Save the event data in Firebase
+            data = {
+                "event_type": event_type,
+                "event_name": event_name,
+                "participation_type": participation_type,
+                "achievement_level": achievement_level,
+                "organizer": organizer,
+                "other_organizer_name": other_organizer_name,
+                "participation_dates": participation_dates,
+                "venue_location": venue_location
+            }
+            db.child("activities").push(data, session['user'])  # Push data to Firebase under the user's node
+
+        elif request.form.get('courseName'):  # Course form submission
+            course_name = request.form['courseName']
+            skills_gained = request.form['skillsGained']
+            platform = request.form['platform']
+
+            # Save the course data in Firebase
+            data = {
+                "course_name": course_name,
+                "skills_gained": skills_gained,
+                "platform": platform
+            }
+            db.child("courses").push(data, session['user'])
+
+        return "Activity/Course submitted successfully!"
+    
+    return render_template('activity.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
