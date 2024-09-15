@@ -14,16 +14,20 @@ app.secret_key = "YourSecretKey"
 
 # Initialize Firebase
 firebaseConfig = {
-    #paste -1
+   #paste 1
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 database = firebase.database()
 
-cred = credentials.Certificate("firebase_Key.json")
+cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
-      #paste -2
+  #paste 2
 })
+
+# Email validation function
+def is_valid_email(email):
+    return re.match(r"[^@]+@srmist\.edu\.in", email)
 
 # Admin check decorator
 def admin_required(f):
@@ -39,9 +43,6 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Email validation function
-def is_valid_email(email):
-    return re.match(r"[^@]+@srmist\.edu\.in", email)
 # Routes
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
@@ -74,15 +75,21 @@ def signup():
             return render_template('signup.html')
 
         # Year validation: ensure year_end is greater than year_start
-        if int(year_end) < int(year_start):
-            flash("Year of end must be greater than or equal to year of start.", "danger")
+        try:
+            year_start = int(year_start)
+            year_end = int(year_end)
+            if year_end < year_start:
+                flash("Year of end must be greater than or equal to year of start.", "danger")
+                return render_template('signup.html')
+        except ValueError:
+            flash("Please enter valid numeric values for years.", "danger")
             return render_template('signup.html')
 
         try:
-            # Check if the email is already registered in the Firebase Realtime Database
+            # Check if the email is already registered in Firebase Realtime Database
             encoded = urllib.parse.quote(email, safe="")
             users = database.child('users').get()
-            if users.each():
+            if users and users.each():
                 for user in users.each():
                     user_data = user.val()
                     if user_data.get('email') == email:
@@ -90,7 +97,8 @@ def signup():
                         return render_template('signup.html')
 
         except Exception as e:
-            return str(e)      
+            flash("Error checking users in the database: " + str(e), "danger")
+            return render_template('signup.html')
 
         try:
             # Create a new user in Firebase Authentication
@@ -116,9 +124,10 @@ def signup():
             # Redirect to login page upon successful signup
             flash("Signup successful! Please login.", "success")
             return redirect(url_for('login'))
-        
+
         except Exception as e:
-            return render_template('signup.html', error=str(e))
+            flash("Error creating user in Firebase: " + str(e), "danger")
+            return render_template('signup.html')
 
     return render_template('signup.html')
 
