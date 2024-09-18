@@ -6,96 +6,93 @@ body, h2, p {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background: url('../static/SRM.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #333;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 /* Navbar Style */
 .navbar {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #333;
 }
 
 .nav-link {
     font-weight: bold;
     color: #007bff;
+    margin-right: 15px;
 }
 
 .nav-link:hover {
     color: #0056b3;
 }
 
-/* Main Container */
+/* Container Style */
 .container {
-    flex: 1;
+    flex: 2;
     display: flex;
-    align-items: flex-start; /* Align to start */
-    justify-content: center;
-    padding-top: 80px; /* Adjust padding to move the message higher */
+    align-items: flex-start;
+    justify-content: center; /* Center contents horizontally */
+    padding: 40px; /* Increased padding for better spacing */
 }
 
-/* Card for Welcome Message */
-.welcome-card {
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
-    color: white;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 20px; /* Rounded corners */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Deep shadow */
-    position: relative;
-    transform: rotate(-5deg); /* Slight rotation for creative effect */
-    margin-top: -50px; /* Move it a bit higher */
+.card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px; /* Increased padding inside the card */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    max-width: 800px; /* Increased maximum width */
+    width: 100%; /* Ensure the card takes full width of its container */
 }
 
-/* Square Background for Welcome Card */
-.welcome-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1); /* Very light overlay */
-    border-radius: 10px; /* Slight rounding */
-    transform: rotate(5deg); /* Opposite rotation for contrast */
-    z-index: -1; /* Behind the welcome card */
-}
-
-/* Welcome Message */
+/* Header Style */
 h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
+    color: #333;
     text-align: center;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
-    margin: 0;
-    padding: 20px;
-    transform: rotate(5deg); /* Rotate back for readable text */
+    margin-bottom: 20px; /* Added margin below the header */
 }
 
-/* Logout Button */
-.btn-logout {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: #d9534f;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+/* Custom Label Style */
+.custom-label {
+    white-space: nowrap; /* Prevents text from wrapping to the next line */
+    width: 150px; /* Set a fixed width for labels */
+    padding-right: 15px; /* Add space between label and value */
 }
 
-.btn-logout:hover {
-    background-color: #c9302c;
+/* Form Control Plain Text Style */
+.form-control-plaintext {
+    font-weight: normal;
+    color: #333;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .card {
+        padding: 20px; /* Adjust padding for smaller screens */
+        max-width: 100%; /* Ensure card doesn't exceed screen width */
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .custom-label {
+        width: 100%; /* Make labels full-width on smaller screens */
+        padding-right: 0; /* Remove extra spacing on smaller screens */
+    }
 }
