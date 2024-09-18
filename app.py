@@ -43,6 +43,15 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# Login required decorator
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user' not in session:
+            flash("Please login to access this page.", "danger")
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 # Routes
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
@@ -162,6 +171,7 @@ def get_user_data(user_id):
     return None
 
 @app.route('/dashboard', methods=['GET'])
+@login_required
 def user_dashboard():
     if 'user' not in session:
         return redirect(url_for('login'))
@@ -183,6 +193,7 @@ def index():
 
 # Route for uploading activities (only accessible to logged-in users)
 @app.route('/upload_activities', methods=['GET', 'POST'])
+@login_required
 def upload_activities():
     if 'user' not in session:
         return redirect(url_for('login'))
