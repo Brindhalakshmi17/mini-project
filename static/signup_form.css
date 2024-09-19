@@ -6,24 +6,30 @@ body {
     background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
     color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
 }
 /* Centering the image container */
 .image-container {
     display: flex;
     justify-content: center;
-    margin: 20px auto;
+    margin-bottom: 15px;
     text-align: center; /* Align content in the center */
 }
 
 .signin-image {
-    max-width: 600px;
-    border-radius: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 50%;
 }
 
 /* Styling the form container */
 .container {
-    max-width: 600px;
-    margin: 50px auto;
+    max-width: 360px;
+    margin: 0px auto;
     padding: 20px;
     background-color: white;
     border-radius: 8px;
@@ -33,8 +39,11 @@ body {
 /* Headings */
 h2 {
     color: #007bff;
-}
+    font-size: 1.5rem;
+    margin-bottom: 20px; /* Add more space below the heading */
+    text-align: center;
 
+}
 /* Input fields */
 input[type="text"],
 input[type="email"],
@@ -44,7 +53,7 @@ input[type="number"],
 select {
     padding: 10px;
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     border-radius: 4px;
     border: 1px solid #ced4da;
     box-sizing: border-box;
@@ -79,11 +88,11 @@ select:focus {
 
 /* Flash messages */
 .alert {
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .alert-dismissible {
-    padding-right: 35px;
+    padding-right: 25px;
 }
 
 .alert.alert-success {
