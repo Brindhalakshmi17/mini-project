@@ -1,59 +1,98 @@
-/* dashboard.css */
-
 /* Basic Reset */
-body, h1, h2, p {
+body, h2, p {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa; /* Light background color */
-    color: #333; /* Dark text color */
+    font-family: 'Arial', sans-serif;
+    background: url('../static/SRM.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Navbar Style */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #333;
+}
+
+.nav-link {
+    font-weight: bold;
+    color: #007bff;
+    margin-right: 15px;
+}
+
+.nav-link:hover {
+    color: #0056b3;
+}
+
+/* Container Style */
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    flex: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center; /* Center contents horizontally */
+    padding: 40px; /* Increased padding for better spacing */
 }
 
-h1 {
+.card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px; /* Increased padding inside the card */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    max-width: 800px; /* Increased maximum width */
+    width: 100%; /* Ensure the card takes full width of its container */
+}
+
+/* Header Style */
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Added margin below the header */
 }
 
-.user-details {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+/* Custom Label Style */
+.custom-label {
+    white-space: nowrap; /* Prevents text from wrapping to the next line */
+    width: 150px; /* Set a fixed width for labels */
+    padding-right: 15px; /* Add space between label and value */
 }
 
-.nav-tabs .nav-link {
-    background-color: #e0f7fa; /* Light blue background for tabs */
-    border-color: #b2ebf2; /* Light blue border color */
-    color: #007bff; /* Blue text color for non-active tab */
+/* Form Control Plain Text Style */
+.form-control-plaintext {
+    font-weight: normal;
+    color: #333;
 }
 
-.nav-tabs .nav-link.active {
-    background-color: #4dc4fb; /* Slightly darker blue for active tab */
-    border-color: #0288d1; /* Darker blue border for active tab */
-    color: white; /* White text for active tab */
-}
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
 
-.nav-tabs .nav-link:hover {
-    background-color: #41bdf7; /* Light blue hover effect */
-    color: #0056b3; /* Darker blue text on hover */
-}
+    .card {
+        padding: 20px; /* Adjust padding for smaller screens */
+        max-width: 100%; /* Ensure card doesn't exceed screen width */
+    }
 
-/* Background color for tab content */
-.tab-content {
-    background-color: #ba49fb81; /* Light blue background for tab content */
-    padding: 20px;
-    border: 1px solid #ba49fb81; /* Light blue border for tab content */
-    border-top: none; /* Remove border from the top to blend with tabs */
-    border-radius: 0 0 5px 5px; /* Rounded corners at the bottom */
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .custom-label {
+        width: 100%; /* Make labels full-width on smaller screens */
+        padding-right: 0; /* Remove extra spacing on smaller screens */
+    }
 }

@@ -1,51 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Welcome to Your Dashboard</h1>
-        
-        <div class="card shadow p-4">
-            <h2 class="mb-4">User Information</h2>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Name:</strong> {{ user['name'] }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Email:</strong> {{ user['email'] }}</p>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Phone Number:</strong> {{ user['phone_number'] }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Register Number:</strong> {{ user['register_number'] }}</p>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Department:</strong> {{ user['department'] }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Batch:</strong> {{ user['batch'] }}</p>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Year of Start:</strong> {{ user['year_start'] }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Year of End:</strong> {{ user['year_end'] }}</p>
-                </div>
-            </div>
-        </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/dashboard">SRM Dashboard</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/upload_activities">Activity</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link btn btn-danger text-white px-3" href="/logout">Logout</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-lg p-4">
+          <h2 class="mb-4 text-center">Welcome to Your Dashboard</h2>
+          <div class="card-body">
+            <div class="row mb-3">
+              <label class="col-md-5 col-form-label custom-label"><strong>Email:</strong></label>
+              <div class="col-md-7">
+                <p class="form-control-plaintext">{{ user['email'] }}</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-md-5 col-form-label custom-label"><strong>Phone Number:</strong></label>
+              <div class="col-md-7">
+                <p class="form-control-plaintext">{{ user['phone_number'] }}</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-md-5 col-form-label custom-label"><strong>Register Number:</strong></label>
+              <div class="col-md-7">
+                <p class="form-control-plaintext">{{ user['register_number'] }}</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-md-5 col-form-label custom-label"><strong>Department:</strong></label>
+              <div class="col-md-7">
+                <p class="form-control-plaintext">{{ user['department'] }}</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-md-5 col-form-label custom-label"><strong>Batch:</strong></label>
+              <div class="col-md-7">
+                <p class="form-control-plaintext">{{ user['batch'] }}</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-md-5 col-form-label custom-label"><strong>Year of Start:</strong></label>
+              <div class="col-md-7">
+                <p class="form-control-plaintext">{{ user['year_start'] }}</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-md-5 col-form-label custom-label"><strong>Year of End:</strong></label>
+              <div class="col-md-7">
+                <p class="form-control-plaintext">{{ user['year_end'] }}</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
