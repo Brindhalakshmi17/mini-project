@@ -25,6 +25,26 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/dashboard">SRM Dashboard</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="/upload_activities">Activity</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link btn btn-danger text-white px-3" href="/logout">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 <div class="container mt-5">
     <!-- Bootstrap Nav Tabs -->
     <ul class="nav nav-tabs" id="eventTab" role="tablist">
@@ -151,10 +171,8 @@
 
         <!-- Sports Event Registration Form -->
         <div class="tab-pane fade form-container sports-form" id="sports" role="tabpanel" aria-labelledby="sports-tab">
-            <form class="mt-4">
-                <h2 class="text-center mb-4">Sports Event Registration Form</h2>
-                <div class="form-container mx-auto">
-                    <form>
+            <form class="mt-4" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_activities') }}">
+                <input type="hidden" name="formType" value="sports">
                         <!-- Event Name -->
                         <div class="mb-3">
                             <label for="eventName" class="form-label required">Event Name</label>
@@ -279,7 +297,19 @@
                         <!-- Prizes -->
                         <div class="mb-3">
                             <label for="prize" class="form-label required">Prize</label>
-                            <input type="text" class="form-control" id="prize" placeholder="Enter Prize" required>
+                            <select class="form-select" id="prize" required>
+                                <option value="">Select Prize</option>
+                                <option value="1st">1st Prize</option>
+                                <option value="2nd">2nd Prize</option>
+                                <option value="3rd">3rd Prize</option>
+                                <option value="participated">Participated</option>
+                            </select>
+                        </div>
+
+                        <!-- File Upload -->
+                        <div class="mb-3">
+                            <label for="fileUpload" class="form-label">Upload Certificate/Proof</label>
+                            <input class="form-control" type="file" id="fileUpload" accept=".pdf, .jpg, .jpeg, .png">
                         </div>
 
                         <!-- Additional Notes -->
