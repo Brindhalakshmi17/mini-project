@@ -10,8 +10,10 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/dashboard">SRM Dashboard</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="/dashboard">
+        <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" style="height: 50px;">
+    </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -22,7 +24,7 @@
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link btn btn-danger text-white px-3" href="/logout">Logout</a>
+            <a class="nav-link btn btn-danger text-light px-3" href="/logout" style="color: white; background-color: darkred;">Logout</a>
           </li>
         </ul>
       </div>
@@ -38,9 +40,9 @@
             <div class="row mb-3">
               <label class="col-md-5 col-form-label custom-label"><strong>Email:</strong></label>
               <div class="col-md-7">
-                <p class="form-control-plaintext">{{ user['email'] }}</p>
+                  <p class="form-control-plaintext">{{ user['email'] }}</p>
               </div>
-            </div>
+          </div>          
             <div class="row mb-3">
               <label class="col-md-5 col-form-label custom-label"><strong>Phone Number:</strong></label>
               <div class="col-md-7">

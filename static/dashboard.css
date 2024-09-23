@@ -65,15 +65,14 @@ h2 {
 
 /* Custom Label Style */
 .custom-label {
-    white-space: nowrap; /* Prevents text from wrapping to the next line */
-    width: 150px; /* Set a fixed width for labels */
-    padding-right: 15px; /* Add space between label and value */
+    width: auto; /* Remove fixed width */
+    padding-right: 15px;
+    white-space: nowrap; /* This prevents the label text from wrapping */
 }
 
-/* Form Control Plain Text Style */
 .form-control-plaintext {
-    font-weight: normal;
-    color: #333;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 /* Responsive Styles */
@@ -82,17 +81,21 @@ h2 {
         padding: 20px; /* Adjust padding for smaller screens */
     }
 
-    .card {
-        padding: 20px; /* Adjust padding for smaller screens */
-        max-width: 100%; /* Ensure card doesn't exceed screen width */
-    }
+/* Increase the width of the card to prevent overlapping */
+.card {
+    max-width: 1000px; /* Increase max-width to give more space */
+    width: 100%; /* Ensure it takes the full width of its container */
+}
 
     h2 {
         font-size: 1.5rem;
     }
 
     .custom-label {
-        width: 100%; /* Make labels full-width on smaller screens */
-        padding-right: 0; /* Remove extra spacing on smaller screens */
+        white-space: nowrap; /* Prevents text wrapping */
+        width: 40%; /* Adjust label width to give it more space */
+    }
+    .form-control-plaintext {
+        white-space: nowrap; /* Prevent text wrapping in the value field */
     }
 }
