@@ -7,6 +7,7 @@ import firebase_admin
 from firebase_admin import credentials, db, storage
 import os
 import uuid
+from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
@@ -15,6 +16,7 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
+   
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -23,6 +25,7 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
+  
 })
 
 # Email validation function
@@ -191,6 +194,12 @@ def logout():
 def index():
     return render_template('index.html')
 
+ALLOWED_EXTENSIONS = {'pdf', 'jpg', 'jpeg', 'png'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           
 # Route for uploading activities (only accessible to logged-in users)
 @app.route('/upload_activities', methods=['GET', 'POST'])
 @login_required
@@ -228,12 +237,28 @@ def upload_activities():
                 }
 
                 # Handle certificate upload
-                # if certificate:
-                #     cert_filename = str(uuid.uuid4()) + os.path.splitext(certificate.filename)[1]
-                #     cert_blob = storage.bucket().blob(f"certificates/{cert_filename}")
-                #     cert_blob.upload_from_file(certificate)
-                #     cert_url = cert_blob.public_url
-                #     activity_data['certificate_url'] = cert_url
+                file_url = ''
+            if certificate and certificate.filename != '':
+                if allowed_file(certificate.filename):
+                    # Secure the filename
+                    filename = secure_filename(certificate.filename)
+                    file_extension = os.path.splitext(filename)[1]
+                    unique_filename = f"{uuid.uuid4()}{file_extension}"
+
+                    try:
+                        # Upload to Firebase Storage
+                        bucket = storage.bucket()
+                        file_blob = bucket.blob(f"event_certificate/{unique_filename}")
+                        file_blob.upload_from_file(certificate)
+                        file_blob.make_public()
+                        file_url = file_blob.public_url
+                        print("File uploaded successfully:", file_url)
+                    except Exception as e:
+                        print("Error uploading file:", e)
+                        errors.append("Failed to upload the certificate/proof file.")
+                else:
+                    errors.append("Invalid file type for Certificate/Proof. Allowed types: PDF, JPG, JPEG, PNG.")
+
 
                 # Save to Firebase Realtime Database
                 db.reference(f'users/{user_id}/events').push(activity_data)
@@ -255,23 +280,115 @@ def upload_activities():
                 }
 
                 # Handle course certificate upload
-                # if course_certificate:
-                #     cert_filename = str(uuid.uuid4()) + os.path.splitext(course_certificate.filename)[1]
-                #     cert_blob = storage.bucket().blob(f"course_certificates/{cert_filename}")
-                #     cert_blob.upload_from_file(course_certificate)
-                #     cert_url = cert_blob.public_url
-                #     course_data['certificate_url'] = cert_url
+                # Handle file upload and errrors 
+            file_url = ''
+            if course_certificate and course_certificate.filename != '':
+                if allowed_file(course_certificate.filename):
+                    # Secure the filename
+                    filename = secure_filename(course_certificate.filename)
+                    file_extension = os.path.splitext(filename)[1]
+                    unique_filename = f"{uuid.uuid4()}{file_extension}"
+
+                    try:
+                        # Upload to Firebase Storage
+                        bucket = storage.bucket()
+                        file_blob = bucket.blob(f"Course_certificate/{unique_filename}")
+                        file_blob.upload_from_file(course_certificate)
+                        file_blob.make_public()
+                        file_url = file_blob.public_url
+                        print("File uploaded successfully:", file_url)
+                    except Exception as e:
+                        print("Error uploading file:", e)
+                        errors.append("Failed to upload the certificate/proof file.")
+                else:
+                    errors.append("Invalid file type for Certificate/Proof. Allowed types: PDF, JPG, JPEG, PNG.")
+
 
                 # Save to Firebase Realtime Database
                 db.reference(f'users/{user_id}/courses').push(course_data)
+                
+        elif form_type == 'sports':
+            # Handle sports form submission
+            event_name = request.form.get('eventName')
+            organizer = request.form.get('organizer')
+            participation_type = request.form.get('participationType')
+            sport = ''
+            if participation_type == 'individual':
+                sport = request.form.get('individualSport')
+            elif participation_type == 'team':
+                sport = request.form.get('teamSport')
+            dates = request.form.get('dates')
+            venue = request.form.get('venue')
+            competition_level = request.form.get('competitionLevel')
+            prize = request.form.get('prize')
+            file_upload = request.files.get('fileUpload')
+
+            if event_name and organizer and participation_type and sport and dates and venue:
+                sports_data = {
+                    "event_name": event_name,
+                    "organizer": organizer,
+                    "participation_type": participation_type,
+                    "sport": sport,
+                    "dates": dates,
+                    "venue": venue,
+                    "competition_level": competition_level,
+                    "prize": prize
+                }
+            # Backend Validation
+            errors = []
+
+            # Validate required fields
+            if not event_name:
+                errors.append("Event Name is required.")
+            if not organizer:
+                errors.append("Organizer is required.")
+            if participation_type not in ['individual', 'team']:
+                errors.append("Invalid Participation Type selected.")
+            if participation_type == 'individual' and not sport:
+                errors.append("Please select an Individual Sport.")
+            if participation_type == 'team' and not sport:
+                errors.append("Please select a Team Sport.")
+            if not dates:
+                errors.append("Dates of Participation are required.")
+            if not venue:
+                errors.append("Venue/Location is required.")
+            if not competition_level:
+                errors.append("Level of Competition is required.")
+            if not prize:
+                errors.append("Prize selection is required.")
+            
+            # Handle file upload and errrors 
+            file_url = ''
+            if file_upload and file_upload.filename != '':
+                if allowed_file(file_upload.filename):
+                    # Secure the filename
+                    filename = secure_filename(file_upload.filename)
+                    file_extension = os.path.splitext(filename)[1]
+                    unique_filename = f"{uuid.uuid4()}{file_extension}"
+
+                    try:
+                        # Upload to Firebase Storage
+                        bucket = storage.bucket()
+                        file_blob = bucket.blob(f"sports_files/{unique_filename}")
+                        file_blob.upload_from_file(file_upload)
+                        file_blob.make_public()
+                        file_url = file_blob.public_url
+                        print("File uploaded successfully:", file_url)
+                    except Exception as e:
+                        print("Error uploading file:", e)
+                        errors.append("Failed to upload the certificate/proof file.")
+                else:
+                    errors.append("Invalid file type for Certificate/Proof. Allowed types: PDF, JPG, JPEG, PNG.")
+
+
+                # Save to Firebase Realtime Database
+                db.reference(f'users/{user_id}/sports').push(sports_data)
 
         flash("Activity uploaded successfully!", "success")
         return redirect(url_for('upload_activities'))
 
     return render_template('activity.html')
     
-
-    return render_template('activity.html')
 @app.route('/test_firebase', methods=['GET'])
 def test_firebase():
     try:
