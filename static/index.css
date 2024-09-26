@@ -1,0 +1,37 @@
+/* Background for the entire page */
+body {
+    background: url('../static/SRM.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Logo styling */
+.logo {
+    max-width: 400px;
+    height: auto;
+}
+
+/* Project description */
+.project-description {
+    font-size: 1.2rem;
+    color: #333; /* Use a standard text color */
+}
+
+/* Centered buttons */
+.btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+}
+
+a.btn:hover {
+    opacity: 0.9; /* Slight hover effect for buttons */
+}
+
+/* Margin for main container */
+.container {
+    background-color: hsla(0, 0%, 100%, 0.8); /* Slight white overlay for readability */
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: auto;
+}

@@ -1,5 +1,5 @@
-/* Basic Reset */
-body, h2, p {
+/* General Reset */
+body, h1, h2, p {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,89 +10,68 @@ body {
     background: url('../static/SRM.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
-/* Navbar Style */
-.navbar {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 15px;
-}
-
-.navbar-brand {
-    font-weight: bold;
-    color: #333;
-}
-
-.nav-link {
-    font-weight: bold;
-    color: #007bff;
-    margin-right: 15px;
-}
-
-.nav-link:hover {
-    color: #0056b3;
-}
-
-/* Container Style */
+/* Main container styling */
 .container {
-    flex: 2;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center; /* Center contents horizontally */
-    padding: 40px; /* Increased padding for better spacing */
-}
-
-.card {
     background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
     border-radius: 15px;
-    padding: 30px; /* Increased padding inside the card */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    max-width: 800px; /* Increased maximum width */
-    width: 100%; /* Ensure the card takes full width of its container */
-}
-
-/* Header Style */
-h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
     text-align: center;
-    margin-bottom: 20px; /* Added margin below the header */
 }
 
-/* Custom Label Style */
-.custom-label {
-    white-space: nowrap; /* Prevents text from wrapping to the next line */
-    width: 150px; /* Set a fixed width for labels */
-    padding-right: 15px; /* Add space between label and value */
-}
-
-/* Form Control Plain Text Style */
-.form-control-plaintext {
-    font-weight: normal;
+/* Heading 1 styling */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
     color: #333;
 }
 
-/* Responsive Styles */
+/* User Details Section */
+.user-details {
+    margin-top: 20px;
+}
+
+.user-details h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.user-details p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-align: left;
+    padding: 5px 0;
+}
+
+.user-details p strong {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Media queries for responsiveness */
 @media (max-width: 768px) {
     .container {
-        padding: 20px; /* Adjust padding for smaller screens */
+        padding: 20px;
     }
 
-    .card {
-        padding: 20px; /* Adjust padding for smaller screens */
-        max-width: 100%; /* Ensure card doesn't exceed screen width */
+    h1 {
+        font-size: 2rem;
     }
 
-    h2 {
+    .user-details h2 {
         font-size: 1.5rem;
     }
 
-    .custom-label {
-        width: 100%; /* Make labels full-width on smaller screens */
-        padding-right: 0; /* Remove extra spacing on smaller screens */
+    .user-details p {
+        font-size: 1rem;
     }
 }
