@@ -1,5 +1,5 @@
 /* General Reset */
-body, h1, h2, p {
+body, h1, h2, p, label {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,50 +10,58 @@ body {
     background: url('../static/SRM.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.nav-link {
+    color: #007bff !important; /* Bootstrap default link color */
+}
+
+.nav-link:hover {
+    color: #0056b3 !important; /* Darker shade on hover */
 }
 
 /* Main container styling */
 .container {
-    background-color: rgba(255, 255, 255, 0.9);
     padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
-    text-align: center;
+    max-width: 800px;
+    margin: auto;
 }
 
-/* Heading 1 styling */
-h1 {
-    font-size: 2.5rem;
+/* Card styling */
+.card {
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+h2 {
+    font-size: 2rem;
     margin-bottom: 20px;
-    color: #333;
+    text-align: center; /* Center align heading */
 }
 
 /* User Details Section */
-.user-details {
-    margin-top: 20px;
+.card-body {
+    text-align: justify; /* Justified text alignment */
 }
 
-.user-details h2 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.user-details p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    text-align: left;
-    padding: 5px 0;
-}
-
-.user-details p strong {
+.custom-label {
     font-weight: bold;
+}
+
+.form-control-plaintext {
+    background-color: transparent;
+    border: none;
     color: #555;
 }
 
@@ -63,15 +71,7 @@ h1 {
         padding: 20px;
     }
 
-    h1 {
-        font-size: 2rem;
-    }
-
-    .user-details h2 {
+    h2 {
         font-size: 1.5rem;
-    }
-
-    .user-details p {
-        font-size: 1rem;
     }
 }
