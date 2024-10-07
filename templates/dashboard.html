@@ -7,19 +7,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
 </head>
 <body>
+    <div class="navbar">
+        <div class="left">
+            <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" class="logo">
+            <a href="{{ url_for('upload_activities') }}" class="btn btn-primary">Upload Activities</a>
+        </div>
+        <div class="right">
+            <button class="logout-btn">Logout</button>
+        </div>
+    </div>
+
     <div class="container">
-        <h1>Welcome to Your Dashboard</h1>
-        
-        <div class="user-details">
-            <h2>User Information</h2>
-            <p><strong>Name:</strong> {{ user['name'] }}</p>
-            <p><strong>Email:</strong> {{ user['email'] }}</p>
-            <p><strong>Phone Number:</strong> {{ user['phone_number'] }}</p>
-            <p><strong>Register Number:</strong> {{ user['register_number'] }}</p>
-            <p><strong>Department:</strong> {{ user['department'] }}</p>
-            <p><strong>Batch:</strong> {{ user['batch'] }}</p>
-            <p><strong>Year of Start:</strong> {{ user['year_start'] }}</p>
-            <p><strong>Year of End:</strong> {{ user['year_end'] }}</p>
+        <div class="dashboard-card">
+            <h1>Welcome to Your Dashboard</h1>
+            
+            <div class="user-details">
+                <p><strong>Email:</strong> {{ user['email'] }}</p>
+                <p><strong>Phone Number:</strong> {{ user['phone_number'] }}</p>
+                <p><strong>Register Number:</strong> {{ user['register_number'] }}</p>
+                <p><strong>Department:</strong> {{ user['department'] }}</p>
+                <p><strong>Batch:</strong> {{ user['batch'] }}</p>
+            </div>
         </div>
     </div>
 </body>
