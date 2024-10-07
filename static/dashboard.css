@@ -14,64 +14,76 @@ body {
 
 /* Navbar styling */
 .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #f8f9fa;
-    border-bottom: 1px solid #e7e7e7;
+    padding: 10px 20px;
+    color: black;
 }
 
-.navbar-brand {
-    font-weight: bold;
+.left {
+    display: flex;
+    align-items: center;
 }
 
-.nav-link {
-    color: #007bff !important; /* Bootstrap default link color */
+/* Styling for the logo */
+.logo {
+    height: 50px;  /* Adjust this size as per your needs */
+    margin-right: 10px; /* Space between logo and text */
+    vertical-align: middle; /* Aligns the logo with the text */
 }
 
-.nav-link:hover {
-    color: #0056b3 !important; /* Darker shade on hover */
+.right .logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.right .logout-btn:hover {
+    background-color: #c0392b;
 }
 
 /* Main container styling */
 .container {
     padding: 40px;
     max-width: 800px;
-    margin: auto;
+    margin: 0 auto;
 }
 
-/* Card styling */
-.card {
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+/* Dashboard card styling */
+.dashboard-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-/* Heading styling */
-h2 {
-    font-size: 2rem;
+h1 {
+    font-size: 24px;
     margin-bottom: 20px;
-    text-align: center; /* Center align heading */
 }
 
-/* User Details Section */
-.card-body {
-    text-align: justify; /* Justified text alignment */
+.user-details p {
+    font-size: 18px;
+    margin: 10px 0;
 }
 
-.custom-label {
-    font-weight: bold;
-}
-
-.form-control-plaintext {
-    background-color: transparent;
-    border: none;
-    color: #555;
-}
-
-/* Media queries for responsiveness */
+/* Responsive design */
 @media (max-width: 768px) {
     .container {
         padding: 20px;
     }
 
-    h2 {
-        font-size: 1.5rem;
+    h1 {
+        font-size: 20px;
+    }
+
+    .user-details p {
+        font-size: 16px;
     }
 }
