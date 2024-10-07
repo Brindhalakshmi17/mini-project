@@ -17,6 +17,7 @@ app.secret_key = "YourSecretKey"
 firebaseConfig = {
    #paste 1
    
+   
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -25,6 +26,7 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
+ 
   
 })
 
@@ -379,10 +381,55 @@ def upload_activities():
                         errors.append("Failed to upload the certificate/proof file.")
                 else:
                     errors.append("Invalid file type for Certificate/Proof. Allowed types: PDF, JPG, JPEG, PNG.")
-
+                    
 
                 # Save to Firebase Realtime Database
                 db.reference(f'users/{user_id}/sports').push(sports_data)
+
+        elif form_type == 'webinar_seminar':
+            # Handle webinar/seminar form submission
+            event_type = request.form.get('eventType')
+            event_name = request.form.get('eventName')
+            participation_type = request.form.get('participationType')
+            organizer = request.form.get('organizerOptions')
+            other_organizer_name = request.form.get('otherOrganizerName', '')
+            participation_dates = request.form.get('participationDates')
+            venue_location = request.form.get('venueLocation')
+            certificate = request.files.get('certificate')
+            if event_type and event_name and participation_type and participation_dates and venue_location:
+                webinar_seminar_data = {
+                    "event_type": event_type,
+                    "event_name": event_name,
+                    "participation_type": participation_type,
+                    "organizer": organizer,
+                    "other_organizer_name": other_organizer_name,
+                    "participation_dates": participation_dates,
+                    "venue_location": venue_location
+                }
+                # Handle certificate upload
+                file_url = ''
+                if certificate and certificate.filename != '':
+                    if allowed_file(certificate.filename):
+                        # Secure the filename
+                        filename = secure_filename(certificate.filename)
+                        file_extension = os.path.splitext(filename)[1]
+                        unique_filename = f"{uuid.uuid4()}{file_extension}"
+                        try:
+                            # Upload to Firebase Storage
+                            bucket = storage.bucket()
+                            file_blob = bucket.blob(f"webinar_seminar_certificate/{unique_filename}")
+                            file_blob.upload_from_file(certificate)
+                            file_blob.make_public()
+                            file_url = file_blob.public_url
+                            print("File uploaded successfully:", file_url)
+                        except Exception as e:
+                            print("Error uploading file:", e)
+                            errors.append("Failed to upload the certificate/proof file.")
+                    else:
+                        errors.append("Invalid file type for Certificate/Proof. Allowed types: PDF, JPG, JPEG, PNG.")
+                
+                # Save to Firebase Realtime Database
+                db.reference(f'users/{user_id}/webinar_seminar').push(webinar_seminar_data)
 
         flash("Activity uploaded successfully!", "success")
         return redirect(url_for('upload_activities'))
