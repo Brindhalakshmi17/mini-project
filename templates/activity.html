@@ -48,6 +48,20 @@
           </div>
         </div>
       </nav>
+    <!-- Flash Messages Section -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    <div class="container mt-4">
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+
 <div class="container mt-5">
     <!-- Bootstrap Nav Tabs -->
     <ul class="nav nav-tabs" id="eventTab" role="tablist">
@@ -284,7 +298,7 @@
     </form>
     </div>
     <!---Webinar or Seminar-->
-        <div class="tab-pane fade show active form-container Webinar_Seminar-form" id="Webinar_Seminar" role="tabpanel" aria-labelledby="Webinar_Seminar-tab">
+        <div class="tab-pane fade form-container Webinar_Seminar-form" id="Webinar_Seminar" role="tabpanel" aria-labelledby="Webinar_Seminar-tab">
             <form class="mt-4" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_activities') }}">
                 <input type="hidden" name="formType" value="Webinar_Seminar">
                 <!-- Select Event Type (Webinar or Seminar) -->
