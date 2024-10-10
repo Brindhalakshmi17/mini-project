@@ -16,8 +16,7 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
-   
-   
+  
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -26,10 +25,10 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
- 
-  
+
 })
 
+tutor_ref = db.reference('tutors')
 # Email validation function
 def is_valid_email(email):
     return re.match(r"[^@]+@srmist\.edu\.in", email)
@@ -57,11 +56,52 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
+
 # Routes
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
-def admin_users():
-    return render_template('admin.html')
+def admin():
+    # Fetch existing tutors
+    tutors = tutor_ref.get()
+
+    if request.method == 'POST':
+        # Handle adding or editing a tutor
+        tutor_id = request.form.get('tutor_id')  # For editing
+        name = request.form['name']
+        email = request.form['email']
+        department = request.form['department']
+        branch = request.form['branch']
+        phone = request.form['phone']
+
+        if tutor_id:
+            # Editing an existing tutor
+            tutor_ref.child(tutor_id).update({
+                'name': name,
+                'email': email,
+                'department': department,
+                'branch': branch,
+                'phone': phone
+            })
+        else:
+            # Adding a new tutor
+            new_tutor_ref = tutor_ref.push()
+            new_tutor_ref.set({
+                'name': name,
+                'email': email,
+                'department': department,
+                'branch': branch,
+                'phone': phone
+            })
+        return redirect(url_for('admin'))
+
+    # Handle deletion
+    delete_id = request.args.get('delete_id')
+    if delete_id:
+        tutor_ref.child(delete_id).delete()
+        return redirect(url_for('admin'))
+
+    return render_template('admin.html', tutors=tutors)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -160,7 +200,7 @@ def login():
             }
             admins = ['bs1329@srmist.edu.in']
             if email in admins:
-                return redirect(url_for('admin_users'))
+                return redirect(url_for('admin'))
             else:
                 return redirect(url_for('user_dashboard'))
         except Exception as e:

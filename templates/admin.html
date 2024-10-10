@@ -2,27 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
-    
+    <title>Admin Panel - Tutor Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div>
-        <h1>Admin Page</h1>
-    <div class="form">
-        <form action="/admin/users" method="GET">
-            <button class="submit-btn" type="submit">User Details</button>
+    <div class="container mt-5">
+        <h2 class="mb-4">Manage Tutors</h2>
+
+        <!-- Add/Edit Form -->
+        <form action="{{ url_for('admin') }}" method="POST">
+            <input type="hidden" name="tutor_id" id="tutor_id">
+            
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <input type="text" class="form-control" id="department" name="department" required>
+            </div>
+            <div class="form-group">
+                <label for="branch">Branch:</label>
+                <input type="text" class="form-control" id="branch" name="branch" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" class="form-control" id="phone" name="phone" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-        <form action="/dashboard" method="GET">
-            <button class="submit-btn" type="submit">Go to Dashboard</button>
-        </form>
-        <div class="logout-btn">
-            <form action="/logout" method="POST">
-                <button class="submit-btn" type="submit">Logout</button>
-            </form>
-        </div>
+
+        <!-- Tutor List -->
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Branch</th>
+                    <th>Phone Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if tutors %}
+                    {% for tutor_id, tutor in tutors.items() %}
+                    <tr>
+                        <td>{{ tutor.name }}</td>
+                        <td>{{ tutor.email }}</td>
+                        <td>{{ tutor.department }}</td>
+                        <td>{{ tutor.branch }}</td>
+                        <td>{{ tutor.phone }}</td>
+                        <td>
+                            <button class="btn btn-secondary btn-sm" onclick="editTutor('{{ tutor_id }}', '{{ tutor.name }}', '{{ tutor.email }}', '{{ tutor.department }}', '{{ tutor.branch }}', '{{ tutor.phone }}')">Edit</button>
+                            <a href="{{ url_for('admin', delete_id=tutor_id) }}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No tutors found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
     </div>
-    </div>
+
+    <script>
+        function editTutor(id, name, email, department, branch, phone) {
+            document.getElementById('tutor_id').value = id;
+            document.getElementById('name').value = name;
+            document.getElementById('email').value = email;
+            document.getElementById('department').value = department;
+            document.getElementById('branch').value = branch;
+            document.getElementById('phone').value = phone;
+        }
+    </script>
 </body>
 </html>
