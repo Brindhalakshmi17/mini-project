@@ -16,6 +16,7 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
+  
    
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -46,15 +47,104 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Login required decorator
+# Role-based access control
 def login_required(f):
     @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user' not in session:
-            flash("Please login to access this page.", "danger")
+    def wrap(*args, **kwargs):
+        if 'user' in session:
+            return f(*args, **kwargs)
+        else:
+            flash("You need to login first", "danger")
             return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
+    return wrap
+
+#forget password route
+@app.route('/forget_password', methods=['GET', 'POST'])
+def forget_password():
+    if request.method == 'POST':
+        email = request.form['email']
+
+        try:
+            # Check if the email exists in the Firebase Realtime Database
+            users = database.child('users').get()
+            if users and users.each():
+                for user in users.each():
+                    user_data = user.val()
+                    if user_data.get('email') == email:
+                        # Send password reset email
+                        auth.send_password_reset_email(email)
+                        flash("Password reset email sent. Please check your inbox.", "success")
+                        return redirect(url_for('login'))
+
+            flash("Email not found in our system. Please try again.", "danger")
+            return render_template('forget_password.html')
+
+        except Exception as e:
+            flash(f"Error: {str(e)}", "danger")
+            return render_template('forget_password.html')
+
+    return render_template('forget_password.html')
+
+def tutor_only(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if session.get('role') == 'tutor':
+            return f(*args, **kwargs)
+        else:
+            flash("You do not have permission to access this page", "danger")
+            return redirect(url_for('dashboard'))  # Assuming 'dashboard' is the student's landing page
+    return wrap
+
+# Tutor Signup route
+@app.route('/tutor_signup', methods=['GET', 'POST'])
+def tutor_signup():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+        batch_id = request.form['batch_id']
+
+        try:
+            # Create tutor account
+            user = auth.create_user_with_email_and_password(email, password)
+            user_id = user['localId']
+
+            # Store tutor details with 'role' as tutor
+            tutor_data = {
+                'name': name,
+                'email': email,
+                'role': 'tutor',
+                'batch_id': batch_id
+            }
+            database.child("users").child(user_id).set(tutor_data)
+
+            flash("Tutor account created successfully", "success")
+            return redirect(url_for('login'))
+
+        except:
+            flash("Error in creating tutor account", "danger")
+            return render_template('tutor_signup.html')
+    else:
+        return render_template('tutor_signup.html')
+    
+# Tutor dashboard (can view batch-specific students)
+@app.route('/tutor_dashboard', methods=['GET', 'POST'])
+@login_required
+@tutor_only
+def tutor_dashboard():
+    tutor_id = session['user_id']
+    # Fetch tutor-specific batch
+    tutor_data = database.child("users").child(tutor_id).get().val()
+    if not tutor_data:
+        flash("Tutor information not found", "danger")
+        return redirect(url_for('dashboard'))
+    
+    batch_id = tutor_data.get('batch_id')
+    # Fetch all students under this tutor's batch
+    students = database.child("students").order_by_child("batch_id").equal_to(batch_id).get().val()
+
+    return render_template('tutor_dashboard.html', students=students)
+
 # Routes
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
@@ -180,7 +270,7 @@ def user_dashboard():
         return redirect(url_for('login'))
     
     user_id = session['user']['localId']
-    user_data = get_user_data(user_id)
+    user_data = database.child("students").child(user_id).get().val()
     if user_data:
         return render_template('dashboard.html', user=user_data)
     return "User not found", 404
