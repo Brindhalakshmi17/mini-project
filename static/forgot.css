@@ -1,0 +1,88 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background and font styling */
+body { 
+    font-family: Arial, sans-serif;
+    background: url('../static/SRM.jpg') no-repeat center center fixed;
+    background-size: cover; /* Cover the entire viewport */
+    color: #333; /* Dark text color */
+}
+
+/* Container styling */
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    opacity: 0.9; /* Slight transparency for the background */
+}
+
+/* Heading styling */
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #007BFF; /* Customize heading color */
+}
+
+/* Label styling */
+label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Input field styling */
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Button styling */
+button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Flash message styling */
+.messages {
+    margin-top: 20px;
+    list-style-type: none;
+}
+
+.messages li {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.messages li.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}

@@ -16,6 +16,7 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
+
   
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -25,6 +26,7 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
+  
 
 })
 
@@ -214,6 +216,23 @@ def get_user_data(user_id):
     if user_snapshot:
         return user_snapshot
     return None
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form['email']
+
+        try:
+            # Send password reset email
+            auth.send_password_reset_email(email)
+            flash('A password reset link has been sent to your email address.', 'success')
+            return redirect(url_for('login'))
+        except Exception as e:
+            flash(f"Error sending password reset email: {str(e)}", 'danger')
+            return render_template('forgot_password.html')
+
+    return render_template('forgot_password.html')
+
 
 @app.route('/dashboard', methods=['GET'])
 @login_required
