@@ -126,7 +126,7 @@
                         <input class="form-check-input" type="radio" name="organizerOptions" id="otherOrganizer" value="others" required>
                         <label class="form-check-label" for="otherOrganizer">Others</label>
                     </div>
-                    <input type="text" class="form-control mt-2" id="otherOrganizerName" name="otherOrganizerName" placeholder="Specify if others" style="display:none;">
+                    <input type="text" class="form-control mt-2" id="otherOrganizerName" name="otherOrganizerName" placeholder="Specify if others" >
                 </div>
 
                 <!-- Dates of Participation -->
@@ -222,7 +222,7 @@
         </div>
 
         <!-- Individual Events -->
-        <div id="individualEvents" class="mb-3">
+        <div id="individualEvents" class="mb-3" style="display: block;">
             <label class="form-label">Select Individual Event</label><br>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="individualSport" value="chess" id="chess" required>
@@ -232,10 +232,26 @@
                 <input class="form-check-input" type="radio" name="individualSport" value="badminton" id="badminton" required>
                 <label class="form-check-label" for="badminton">Badminton</label>
             </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="individualSport" value="tennis" id="tennis" required>
+                <label class="form-check-label" for="tennis">Tennis</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="individualSport" value="Swimming" id="Swimming" required>
+                <label class="form-check-label" for="Swimming">Swimming</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="individualSport" value="Running" id="Running" required>
+                <label class="form-check-label" for="Running">Running</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="individualSport" value="Archery" id="Archery" required>
+                <label class="form-check-label" for="Archery">Archery</label>
+            </div>
             <!-- Add other individual sports similarly -->
             <!-- ... -->
         </div>
-
+        
         <!-- Team Events -->
         <div id="teamEvents" class="mb-3" style="display: none;">
             <label class="form-label">Select Team Event</label><br>
@@ -247,10 +263,28 @@
                 <input class="form-check-input" type="radio" name="teamSport" value="volleyball" id="volleyball" required>
                 <label class="form-check-label" for="volleyball">Volleyball</label>
             </div>
-            <!-- Add other team sports similarly -->
-            <!-- ... -->
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teamSport" value="kabaddi" id="kabaddi" required>
+                <label class="form-check-label" for="kabaddi">Kabaddi</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teamSport" value="football" id="football" required>
+                <label class="form-check-label" for="football">Football</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teamSport" value="Basketball" id="Basketball" required>
+                <label class="form-check-label" for="Basketball">Basketball</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teamSport" value="Hockey" id="Hockey" required>
+                <label class="form-check-label" for="Hockey">Hockey</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teamSport" value="Baseball" id="Baseball" required>
+                <label class="form-check-label" for="Baseball">Baseball</label>
+            </div>
+            
         </div>
-
         <!-- Dates of Participation -->
         <div class="mb-3">
             <label for="dates" class="form-label required">Dates of Participation</label>
@@ -296,7 +330,7 @@
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    </div>
+</div>
     <!---Webinar or Seminar-->
         <div class="tab-pane fade form-container Webinar_Seminar-form" id="Webinar_Seminar" role="tabpanel" aria-labelledby="Webinar_Seminar-tab">
             <form class="mt-4" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_activities') }}">
@@ -368,52 +402,42 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {s
+    document.addEventListener('DOMContentLoaded', function() {
         const individualRadio = document.getElementById('individual');
         const teamRadio = document.getElementById('team');
         const individualEvents = document.getElementById('individualEvents');
         const teamEvents = document.getElementById('teamEvents');
 
-        function toggleEventSections() {
+        // Function to toggle event display based on selected participation type
+        function toggleEvents() {
             if (individualRadio.checked) {
                 individualEvents.style.display = 'block';
                 teamEvents.style.display = 'none';
-
-                // Set required attributes
-                document.querySelectorAll('input[name="individualSport"]').forEach(input => {
-                    input.required = true;
-                });
-                document.querySelectorAll('input[name="teamSport"]').forEach(input => {
-                    input.required = false;
-                    input.checked = false; // Uncheck if any were selected
-                });
             } else if (teamRadio.checked) {
                 individualEvents.style.display = 'none';
                 teamEvents.style.display = 'block';
-
-                // Set required attributes
-                document.querySelectorAll('input[name="teamSport"]').forEach(input => {
-                    input.required = true;
-                });
-                document.querySelectorAll('input[name="individualSport"]').forEach(input => {
-                    input.required = false;
-                    input.checked = false; // Uncheck if any were selected
-                });
             }
         }
+        function toggleInput(inputId, value) {
+            if (value === 'others') {
+                document.getElementById(inputId).style.display = 'block';
+            } else {
+                document.getElementById(inputId).style.display = 'none';
 
-        // Initialize the form based on the default selection
-        toggleEventSections();
-
-        // Event listeners for participation type radio buttons
-        individualRadio.addEventListener('change', toggleEventSections);
-        teamRadio.addEventListener('change', toggleEventSections);
+}
+}
+        // Event listeners for radio buttons
+        individualRadio.addEventListener('change', toggleEvents);
+        teamRadio.addEventListener('change', toggleEvents);
+        // Initialize display based on default selection
+        toggleEvents();
+        document.getElementById('otherOrganizer').addEventListener('change', function() {
+        document.getElementById('otherOrganizerName').style.display = 'block';
     });
 
-    document.querySelectorAll('input[name="organizerOptions"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            document.getElementById('otherOrganizerName').style.display = this.value === 'others' ? 'block' : 'none';
-        });
+    document.getElementById('srmOrganizer').addEventListener('change', function() {
+        document.getElementById('otherOrganizerName').style.display = 'none';
+    });
     });
 </script>
 
