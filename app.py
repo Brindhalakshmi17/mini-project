@@ -141,6 +141,7 @@ def signup():
             flash("Please enter valid numeric values for years.", "danger")
             return render_template('signup.html')
 
+
         try:
             # Check if the email is already registered in Firebase Realtime Database
             encoded = urllib.parse.quote(email, safe="")
