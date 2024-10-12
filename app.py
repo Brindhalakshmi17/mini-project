@@ -16,7 +16,7 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
-
+   
   
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -27,10 +27,26 @@ cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
   
-
 })
-
 tutor_ref = db.reference('tutors')
+@app.route('/tutor_dashboard')
+def tutor_dashboard():
+    # Check if the tutor is logged in
+    if 'tutor_id' not in session:
+        return redirect(url_for('login'))
+    
+    # Get the tutor's ID from the session
+    tutor_id = session['tutor_id']
+
+    # Fetch tutor details from the Realtime Database
+    tutor = tutor_ref.child(tutor_id).get()
+    
+    if tutor:
+        return render_template('tutor_dashboard.html', tutor=tutor)
+    else:
+        return "Tutor not found", 404
+
+
 # Email validation function
 def is_valid_email(email):
     return re.match(r"[^@]+@srmist\.edu\.in", email)
@@ -60,7 +76,6 @@ def login_required(f):
     return decorated_function
 
 
-# Routes
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
 def admin():
@@ -75,7 +90,8 @@ def admin():
         department = request.form['department']
         branch = request.form['branch']
         phone = request.form['phone']
-
+         
+        temporary_password = "SRM1234"
         if tutor_id:
             # Editing an existing tutor
             tutor_ref.child(tutor_id).update({
@@ -95,6 +111,14 @@ def admin():
                 'branch': branch,
                 'phone': phone
             })
+            # Create the tutor user in Firebase with the temporary password
+            user = auth.create_user_with_email_and_password(email, temporary_password)
+            print(f"Created user with email: {email}")  # For your reference in logs
+            
+            # Send password reset email to the tutor
+            auth.send_password_reset_email(email)
+            print(f"Sent password reset email to: {email}")  # For your reference in logs
+            
         return redirect(url_for('admin'))
 
     # Handle deletion
@@ -187,7 +211,6 @@ def signup():
             return render_template('signup.html')
 
     return render_template('signup.html')
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -195,21 +218,42 @@ def login():
         password = request.form['password']
 
         try:
+            # Attempt to sign in with Firebase Authentication
             user = auth.sign_in_with_email_and_password(email, password)
+            
+            # Retrieve the user ID and set session variables
             session['user'] = {
                 'idToken': user['idToken'],
                 'localId': user['localId'],
                 'email': email
             }
+            
+            # Check if the user is a tutor in Firebase Realtime Database
+            tutor_ref = db.reference('tutors')
+            tutors = tutor_ref.get()
+            
+            if tutors:
+                for tutor_id, tutor_data in tutors.items():
+                    if tutor_data['email'] == email:
+                        session['tutor_id'] = tutor_id  # Set tutor ID in session for dashboard route
+                        return redirect(url_for('tutor_dashboard'))
+            
+            # Check if the user is an admin
             admins = ['bs1329@srmist.edu.in']
             if email in admins:
+                session['is_admin'] = True
                 return redirect(url_for('admin'))
-            else:
-                return redirect(url_for('user_dashboard'))
+            
+            # Redirect to a general user dashboard if not an admin or tutor
+            return redirect(url_for('user_dashboard'))
+
         except Exception as e:
-            return render_template('login.html', error=str(e))
+            # Error handling and feedback for the login form
+            error = "Invalid email or password. Please try again."
+            return render_template('login.html', error=error)
 
     return render_template('login.html')
+
 
 def get_user_data(user_id):
     ref = db.reference(f'users/{user_id}')
