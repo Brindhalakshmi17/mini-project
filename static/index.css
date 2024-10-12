@@ -3,6 +3,14 @@ body {
     background: url('../static/SRM.jpg') no-repeat center center fixed;
     background-size: cover;
     font-family: 'Arial', sans-serif;
+
+    /* Flexbox centering */
+    display: flex;
+    justify-content: center; /* Horizontal center */
+    align-items: center;     /* Vertical center */
+    height: 100vh;           /* Full viewport height */
+    margin: 0; 
+    /*padding-top: 50px;            /* Remove default body margin */
 }
 
 /* Logo styling */
@@ -14,7 +22,7 @@ body {
 /* Project description */
 .project-description {
     font-size: 1.2rem;
-    color: #333; /* Use a standard text color */
+    color: #131111; /* Use a standard text color */
 }
 
 /* Centered buttons */
@@ -29,9 +37,10 @@ a.btn:hover {
 
 /* Margin for main container */
 .container {
-    background-color: hsla(0, 0%, 100%, 0.8); /* Slight white overlay for readability */
+    background-color: hsl(0, 50%, 98%); /* Slight white overlay for readability */
     padding: 20px;
     border-radius: 8px;
-    max-width: 600px;
-    margin: auto;
+    max-width: 500px;
+    margin: 0 auto;   
+    /*margin-top: 50px;  /* Additional margin to slightly move the container down */
 }
