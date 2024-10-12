@@ -334,7 +334,7 @@
     <!---Webinar or Seminar-->
         <div class="tab-pane fade form-container Webinar_Seminar-form" id="Webinar_Seminar" role="tabpanel" aria-labelledby="Webinar_Seminar-tab">
             <form class="mt-4" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_activities') }}">
-                <input type="hidden" name="formType" value="Webinar_Seminar">
+                <input type="hidden" name="formType" value="webinar_seminar">
                 <!-- Select Event Type (Webinar or Seminar) -->
                 <div class="mb-3">
                     <label class="form-label">Select Event Type</label><br>
@@ -407,39 +407,80 @@
         const teamRadio = document.getElementById('team');
         const individualEvents = document.getElementById('individualEvents');
         const teamEvents = document.getElementById('teamEvents');
-
+        const otherOrganizer = document.getElementById('otherOrganizer');
+        const srmOrganizer = document.getElementById('srmOrganizer');
+        const otherOrganizerName = document.getElementById('otherOrganizerName');
+    
         // Function to toggle event display based on selected participation type
         function toggleEvents() {
             if (individualRadio.checked) {
                 individualEvents.style.display = 'block';
                 teamEvents.style.display = 'none';
+    
+                // Ensure teamSport inputs are unchecked when switching to individual
+                const teamInputs = teamEvents.querySelectorAll('input[type="radio"]');
+                teamInputs.forEach(input => input.checked = false);
             } else if (teamRadio.checked) {
                 individualEvents.style.display = 'none';
                 teamEvents.style.display = 'block';
+    
+                // Ensure individualSport inputs are unchecked when switching to team
+                const individualInputs = individualEvents.querySelectorAll('input[type="radio"]');
+                individualInputs.forEach(input => input.checked = false);
             }
         }
+    
+        // Function to toggle input visibility based on selection value
         function toggleInput(inputId, value) {
+            const inputElement = document.getElementById(inputId);
             if (value === 'others') {
-                document.getElementById(inputId).style.display = 'block';
+                inputElement.style.display = 'block';
             } else {
-                document.getElementById(inputId).style.display = 'none';
-
-}
-}
-        // Event listeners for radio buttons
-        individualRadio.addEventListener('change', toggleEvents);
-        teamRadio.addEventListener('change', toggleEvents);
+                inputElement.style.display = 'none';
+                inputElement.value = '';  // Clear the input when hiding it
+            }
+        }
+    
         // Initialize display based on default selection
         toggleEvents();
-        document.getElementById('otherOrganizer').addEventListener('change', function() {
-        document.getElementById('otherOrganizerName').style.display = 'block';
-    });
-
-    document.getElementById('srmOrganizer').addEventListener('change', function() {
-        document.getElementById('otherOrganizerName').style.display = 'none';
-    });
+    
+        // Event listeners for radio buttons to toggle event type
+        individualRadio.addEventListener('change', toggleEvents);
+        teamRadio.addEventListener('change', toggleEvents);
+    
+        // Event listener to show or hide the additional organizer input
+        otherOrganizer?.addEventListener('change', function() {
+            toggleInput('otherOrganizerName', this.value);
+        });
+    
+        srmOrganizer?.addEventListener('change', function() {
+            otherOrganizerName.style.display = 'none';
+            otherOrganizerName.value = '';
+        });
+    
+        // Submit handler to validate form data before submission
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            const individualChecked = individualRadio.checked;
+            const teamChecked = teamRadio.checked;
+            
+            if (individualChecked) {
+                const individualSelected = individualEvents.querySelector('input[type="radio"]:checked');
+                if (!individualSelected) {
+                    event.preventDefault();
+                    alert("Please select an individual sport.");
+                    return;
+                }
+            } else if (teamChecked) {
+                const teamSelected = teamEvents.querySelector('input[type="radio"]:checked');
+                if (!teamSelected) {
+                    event.preventDefault();
+                    alert("Please select a team sport.");
+                    return;
+                }
+            }
+        });
     });
 </script>
-
 </body>
 </html>
