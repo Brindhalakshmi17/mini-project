@@ -22,7 +22,7 @@ body {
 /* Project description */
 .project-description {
     font-size: 1.2rem;
-    color: #131111; /* Use a standard text color */
+    color: #faf7f7; /* Use a standard text color */
 }
 
 /* Centered buttons */
@@ -37,10 +37,10 @@ a.btn:hover {
 
 /* Margin for main container */
 .container {
-    background-color: hsl(0, 50%, 98%); /* Slight white overlay for readability */
+    background-color: #00000097;; /* Slight white overlay for readability */
     padding: 20px;
     border-radius: 8px;
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;   
     /*margin-top: 50px;  /* Additional margin to slightly move the container down */
 }
