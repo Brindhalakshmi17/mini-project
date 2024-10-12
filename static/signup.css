@@ -5,49 +5,55 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
-    color: white; /* Ensure text is visible on black background */
+    color: white;
+}
+
+/* Custom container class for width control */
+.custom-container {
+    max-width: 900px; /* Ensure width is forced */
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* Use a white background for better visibility */
+    border-radius: 8px; /* Add rounded corners */
+    border: 2px solid #007bff; /* Blue border around the form */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Stronger shadow for better visibility */
+    color: black; /* Adjust text color inside the form */
 }
 
 /* Center logo styling */
-.center-logo {
-    max-width: 700px; /* Adjust size as needed */
+.signin-image {
+    max-width: 200px; /* Adjust logo size */
     height: auto;
+    margin-bottom: 20px;
 }
 
-/* Paragraph styling */
-.project-description {
-    font-size: 18px;
-    max-width: 600px;
-    margin: 0 auto;
-    color: #ffffff; /* White text color for the paragraph */
+/* Make form fields more compact and visible */
+.form-control {
+    margin-bottom: 15px;
+    border: 2px solid #007bff; /* Blue border for form fields */
+    background-color: #f8f9fa; /* Light gray background for inputs */
 }
 
-/* Button styles */
-.btn {
-    padding: 10px 20px;
+/* Submit Button */
+.submit-btn {
+    margin-top: 20px;
+    padding: 10px;
     font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
 }
 
-/* Register Button */
-.btn-outline-success {
-    background-color: #007bff; /* Green background for Register */
-    color: white;
+/* Change color for 'Already have an account?' text */
+.login-text {
+    color: #ffcc00; /* Bright yellow for better visibility */
+    font-size: 16px; /* Optional: adjust font size */
+    background-color: rgba(255, 255, 255, 0.7); /* Light background for contrast */
+    padding: 5px; /* Add some padding around the text */
+    border-radius: 4px; /* Optional: rounded corners for the background */
 }
 
-.btn-outline-success:hover {
-    background-color: #218838;
-}
-
-/* Login Button */
-.btn-outline-primary {
-    background-color: #007bff; /* Blue background for Login */
-    color: white;
-}
-
-.btn-outline-primary:hover {
-    background-color: #0056b3;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
 }
