@@ -35,3 +35,14 @@ body {
     border-top: none; /* Remove border from the top to blend with tabs */
     border-radius: 0 0 5px 5px; /* Rounded corners at the bottom */
 }
+/* Navbar styling */
+.navbar-brand .logo {
+    height: 50px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.navbar {
+    background-color: #343a40; /* Dark grey/black background */
+}
+
