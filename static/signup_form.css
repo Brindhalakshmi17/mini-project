@@ -37,11 +37,11 @@ body {
 }
 
 /* Headings */
-h2 {
+h1 {
     color: #007bff;
-    font-size: 1.5rem;
     margin-bottom: 20px; /* Add more space below the heading */
     text-align: center;
+    
 
 }
 /* Input fields */
@@ -105,4 +105,12 @@ select:focus {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
+}
+
+.custom-container{
+    background-color: #00000097;
+    width: 50%;
+    padding: 30px;
+    color: white;
+    border-radius: 20px;
 }
