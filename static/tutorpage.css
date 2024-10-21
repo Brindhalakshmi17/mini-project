@@ -1,0 +1,43 @@
+/* Set the background image and style */
+.background {
+    background-image: url('../static/SRM.jpg') ; /* Add your background image URL here */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .container {
+    background-color: rgba(0, 0, 0, 0.6); /* Dark transparent overlay */
+    padding: 40px;
+    border-radius: 10px;
+  }
+  
+  /* Table customization */
+  .table {
+    margin-top: 20px;
+  }
+  
+  .table thead th {
+    background-color: #343a40;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Text styling */
+  h1 {
+    font-size: 3rem;
+  }
+  
+  h4 {
+    font-size: 1.5rem;
+  }
+  
+  .table td, .table th {
+    vertical-align: middle;
+  }
+  

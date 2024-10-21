@@ -16,8 +16,8 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
-   
-  
+
+
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -27,6 +27,7 @@ cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
   
+
 })
 tutor_ref = db.reference('tutors')
 @app.route('/tutor_dashboard')
@@ -236,7 +237,7 @@ def login():
                 for tutor_id, tutor_data in tutors.items():
                     if tutor_data['email'] == email:
                         session['tutor_id'] = tutor_id  # Set tutor ID in session for dashboard route
-                        return redirect(url_for('tutor_dashboard'))
+                        return redirect(url_for('tutor_students', tutor_id=tutor_id))
             
             # Check if the user is an admin
             admins = ['bs1329@srmist.edu.in']
@@ -548,6 +549,28 @@ def test_firebase():
         return "Data written successfully"
     except Exception as e:
         return f"Error: {str(e)}"
+
+@app.route('/tutor/<tutor_id>', methods=['GET'])
+def tutor_students(tutor_id):
+    # Get tutor details
+    tutor = database.child("tutors").child(tutor_id).get().val()
+    if not tutor:
+        return "Tutor not found", 404
+
+    # Get tutor's department and batch
+    tutor_department = tutor.get("department")
+    tutor_batch = tutor.get("branch")
+
+    # Fetch all students from the Firebase database
+    students = database.child("users").get().val()
+
+    # Filter students based on the tutor's department and batch
+    filtered_students = []
+    for student_id, student_data in students.items():
+        if student_data["department"] == tutor_department and student_data["batch"] == tutor_batch:
+            filtered_students.append(student_data)
+
+    return render_template('tutor_students.html', students=filtered_students, tutor=tutor)
 
 
 if __name__ == '__main__':
