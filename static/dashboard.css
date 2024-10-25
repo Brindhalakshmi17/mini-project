@@ -11,57 +11,97 @@ body {
     background-size: cover;
     color: #333;
 }
-
-/* Navbar styling */
-.navbar-brand .logo {
-    height: 50px;
+/* Logo */
+.logo {
+    height: 60px;
     width: auto;
-    margin-right: 10px;
 }
 
-.navbar {
-    background-color: #343a40; /* Dark grey/black background */
+/* Navbar Link Styling */
+.navbar-dark .navbar-nav .nav-link {
+    color: #ccc !important; /* Light gray color for links */
+    font-size: 20px;
+    transition: color 0.3s, transform 0.3s;
+    padding-left: 30px;
+    padding-right:30px;
+    
 }
 
-.navbar-nav .nav-link {
-    color: #f8f9fa;
-    margin-right: 15px;
-    transition: color 0.3s ease;
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #3000f0 !important; /* Highlight color on hover */
+    transform: scale(1.1); /* Slight zoom effect */
 }
 
-.navbar-nav .nav-link:hover {
-    color: #ddd;
+.navbar-dark .navbar-nav .nav-link:active {
+    color: #002fff !important; /* Active color */
+    transform: scale(1.15);
 }
+
+/* Navbar background */
+.bg-dark {
+    background-color: #000000d5 !important; /* Black background */
+}
+
+/* Responsive adjustments */
+@media (max-width: 100%) {
+    .navbar-nav {
+        text-align: center;
+    }
+    .navbar-nav .nav-link {
+        padding: 10px;
+    }
+}
+
+
 
 /* Dashboard card styling */
-.container {
+.dashboard-card {
     max-width: 700px;
     margin: 0 auto;
+    
+
     padding: 20px;
 }
 
 .dashboard-card {
-    background-color: rgba(255, 255, 255, 0.85); /* Light transparent background */
+    background-color: rgba(0, 0, 0, 0.764);
+    color: white; /* Light transparent background */
     border-radius: 10px;
-    padding: 30px;
-    margin-top: 50px;
+    margin-top: 150px;
+    align-items: center;
     transition: background-color 0.3s ease; /* Smooth background transition */
 }
 
 .dashboard-card:hover {
-    background-color: rgba(255, 255, 255, 0.95); /* Slightly less transparent on hover */
+    background-color: rgba(255, 255, 255, 0.671); 
+    color:black/* Slightly less transparent on hover */
 }
 
 .card-title {
-    font-size: 24px;
+    font-size: 35px;
+    margin-top: 20px;
     margin-bottom: 20px;
+    margin-left: 110px;
 }
 
 .user-details p {
-    font-size: 18px;
-    margin: 10px 0;
+    font-size: 18px;   
+    margin-left: 120px;
+}
+.dashboard-card {
+    max-width: 700px; /* Limit the width of the card */
+    border-radius: 8px; /* Rounded corners */
 }
 
+.user-details p {
+    margin-bottom: 10px; /* Space between details */
+    font-size: 1.1rem; /* Slightly larger font */
+}
+
+/* Centering Container */
+.vh-100 {
+    min-height: 100vh; /* Full viewport height */
+}
 /* Responsive design */
 @media (max-width: 768px) {
     .dashboard-card {
