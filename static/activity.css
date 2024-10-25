@@ -10,23 +10,36 @@ body {
     background-color: #f8f9fa; /* Light background color */
     color: #333; /* Dark text color */
 }
-.nav-tabs .nav-link {
-    background-color: #e0f7fa; /* Light blue background for tabs */
-    border-color: #b2ebf2; /* Light blue border color */
-    color: #007bff; /* Blue text color for non-active tab */
+/* Logo */
+.logo {
+    height: 60px;
+    width: auto;
+}
+/* Navbar Link Styling */
+.navbar-dark .navbar-nav .nav-link {
+    color: #ccc !important; /* Light gray color for links */
+    font-size: 20px;
+    transition: color 0.3s, transform 0.3s;
+    padding-left: 30px;
+    padding-right:30px;
+    
 }
 
-.nav-tabs .nav-link.active {
-    background-color: #4dc4fb; /* Slightly darker blue for active tab */
-    border-color: #0288d1; /* Darker blue border for active tab */
-    color: white; /* White text for active tab */
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #3000f0 !important; /* Highlight color on hover */
+    transform: scale(1.1); /* Slight zoom effect */
 }
 
-.nav-tabs .nav-link:hover {
-    background-color: #41bdf7; /* Light blue hover effect */
-    color: #0056b3; /* Darker blue text on hover */
+.navbar-dark .navbar-nav .nav-link:active {
+    color: #002fff !important; /* Active color */
+    transform: scale(1.15);
 }
 
+/* Navbar background */
+.bg-dark {
+    background-color: #000000d5 !important; /* Black background */
+
+    
 /* Background color for tab content */
 .tab-content {
     background-color: #ba49fb81; /* Light blue background for tab content */
@@ -41,8 +54,7 @@ body {
     width: auto;
     margin-right: 10px;
 }
-
 .navbar {
     background-color: #343a40; /* Dark grey/black background */
 }
-
+}
