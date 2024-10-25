@@ -15,21 +15,26 @@ body {
 }
 
 /* Container styling */
-.container {
+.card{
     width: 100%;
     max-width: 400px;
     margin: 100px auto;
     padding: 20px;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.705);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     opacity: 0.9; /* Slight transparency for the background */
+    color: white;
 }
 
+.card-header{
+    background: white;
+    border-radius: 30%;
+}
 /* Heading styling */
 h2 {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     font-size: 24px;
     color: #007BFF; /* Customize heading color */
 }

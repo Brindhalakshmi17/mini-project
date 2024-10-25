@@ -16,7 +16,7 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
-   
+    
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -25,7 +25,7 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
-
+  
 })
 tutor_ref = db.reference('tutors')
 @app.route('/tutor_dashboard')
@@ -87,7 +87,7 @@ def admin():
         name = request.form['name']
         email = request.form['email']
         department = request.form['department']
-        branch = request.form['branch']
+        batch = request.form['batch']
         phone = request.form['phone']
          
         temporary_password = "SRM1234"
@@ -97,7 +97,7 @@ def admin():
                 'name': name,
                 'email': email,
                 'department': department,
-                'branch': branch,
+                'batch': batch,
                 'phone': phone
             })
         else:
@@ -107,7 +107,7 @@ def admin():
                 'name': name,
                 'email': email,
                 'department': department,
-                'branch': branch,
+                'batch': batch,
                 'phone': phone
             })
             # Create the tutor user in Firebase with the temporary password
@@ -262,7 +262,12 @@ def login():
 def forgot_password():
     if request.method == 'POST':
         email = request.form['email']
-
+        
+        # Email validation for SRMIST domain
+        if not is_valid_email(email):
+            flash("Please use your SRMIST email for password reset.", "danger")
+            return render_template('forgot_password.html')
+        
         try:
             # Send password reset email
             auth.send_password_reset_email(email)
@@ -274,6 +279,12 @@ def forgot_password():
 
     return render_template('forgot_password.html')
 
+def get_user_data(user_id):
+    ref = db.reference(f'users/{user_id}')
+    user_snapshot = ref.get()
+    if user_snapshot:
+        return user_snapshot
+    return None
 
 @app.route('/dashboard', methods=['GET'])
 @login_required

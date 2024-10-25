@@ -24,7 +24,7 @@ body {
     border-radius: 10px; /* Rounded corners */
     border: none; /* Remove default border */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+    background: rgba(0, 0, 0, 0.742); /* Slightly transparent white background */
 }
 
 /* Card Header */
@@ -63,7 +63,7 @@ body {
 
 /* Card Footer */
 .card-footer {
-    background-color: #f1f1f1; /* Light footer background */
+    color:white;
     border-top: 1px solid #dee2e6; /* Light border for separation */
     padding: 10px;
 }
@@ -83,7 +83,7 @@ body {
 
 /* Welcome Message */
 .card-header::before {
-    content: "WELCOME";
+    content: "Login";
     display: block;
     font-size: 32px; /* Larger font size for welcome message */
     font-weight: bold;
