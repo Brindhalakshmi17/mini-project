@@ -16,8 +16,7 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
-
-
+   
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -26,7 +25,6 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
-  
 
 })
 tutor_ref = db.reference('tutors')
@@ -217,7 +215,12 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-
+        
+        # Email validation
+        if not is_valid_email(email):
+            flash("Please use your SRMIST email for login.", "danger")
+            return render_template('login.html')
+        
         try:
             # Attempt to sign in with Firebase Authentication
             user = auth.sign_in_with_email_and_password(email, password)
@@ -236,7 +239,7 @@ def login():
             if tutors:
                 for tutor_id, tutor_data in tutors.items():
                     if tutor_data['email'] == email:
-                        session['tutor_id'] = tutor_id  # Set tutor ID in session for dashboard route
+                        session['tutor_id'] = tutor_id
                         return redirect(url_for('tutor_students', tutor_id=tutor_id))
             
             # Check if the user is an admin
@@ -250,18 +253,10 @@ def login():
 
         except Exception as e:
             # Error handling and feedback for the login form
-            error = "Invalid email or password. Please try again."
-            return render_template('login.html', error=error)
+            flash("Invalid email or password. Please try again.", "danger")
+            return render_template('login.html')
 
     return render_template('login.html')
-
-
-def get_user_data(user_id):
-    ref = db.reference(f'users/{user_id}')
-    user_snapshot = ref.get()
-    if user_snapshot:
-        return user_snapshot
-    return None
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
