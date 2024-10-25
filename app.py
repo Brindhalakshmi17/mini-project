@@ -89,7 +89,7 @@ def admin():
         department = request.form['department']
         batch = request.form['batch']
         phone = request.form['phone']
-         
+        
         temporary_password = "SRM1234"
         if tutor_id:
             # Editing an existing tutor
@@ -321,7 +321,7 @@ def upload_activities():
         return redirect(url_for('login'))
 
     user_id = session.get('user')['localId']
-
+    errors=[]
     if request.method == 'POST':
         form_type = request.form.get('formType')  # Determine whether it's event or course form
 
@@ -344,7 +344,7 @@ def upload_activities():
                     "participation_type": participation_type,
                     "achievement_level": achievement_level,
                     "organizer": organizer,
-                    "other_organizer_name": other_organizer_name,
+                    "organizer_name": other_organizer_name,
                     "participation_dates": participation_dates,
                     "venue_location": venue_location
                 }
@@ -406,7 +406,11 @@ def upload_activities():
                         # Upload to Firebase Storage
                         bucket = storage.bucket()
                         file_blob = bucket.blob(f"Course_certificate/{unique_filename}")
-                        file_blob.upload_from_file(course_certificate)
+                        
+                        # Open course_certificate in binary mode if required
+                        file_blob.upload_from_file(course_certificate)  # Ensure this is file-like
+
+                        # Make the file public
                         file_blob.make_public()
                         file_url = file_blob.public_url
                         print("File uploaded successfully:", file_url)
@@ -415,38 +419,20 @@ def upload_activities():
                         errors.append("Failed to upload the certificate/proof file.")
                 else:
                     errors.append("Invalid file type for Certificate/Proof. Allowed types: PDF, JPG, JPEG, PNG.")
-
-
                 # Save to Firebase Realtime Database
                 db.reference(f'users/{user_id}/courses').push(course_data)
                 
         elif form_type == 'sports':
-            # Handle sports form submission
+        # Handle sports form submission
             event_name = request.form.get('eventName')
             organizer = request.form.get('organizer')
-            participation_type = request.form.get('participationType')
-            sport = ''
-            if participation_type == 'individual':
-                sport = request.form.get('individualSport')
-            elif participation_type == 'team':
-                sport = request.form.get('teamSport')
+            sport = request.form.get('sport')  # Now directly getting the selected sport
             dates = request.form.get('dates')
             venue = request.form.get('venue')
             competition_level = request.form.get('competitionLevel')
             prize = request.form.get('prize')
             file_upload = request.files.get('fileUpload')
 
-            if event_name and organizer and participation_type and sport and dates and venue:
-                sports_data = {
-                    "event_name": event_name,
-                    "organizer": organizer,
-                    "participation_type": participation_type,
-                    "sport": sport,
-                    "dates": dates,
-                    "venue": venue,
-                    "competition_level": competition_level,
-                    "prize": prize
-                }
             # Backend Validation
             errors = []
 
@@ -455,12 +441,8 @@ def upload_activities():
                 errors.append("Event Name is required.")
             if not organizer:
                 errors.append("Organizer is required.")
-            if participation_type not in ['individual', 'team']:
-                errors.append("Invalid Participation Type selected.")
-            if participation_type == 'individual' and not sport:
-                errors.append("Please select an Individual Sport.")
-            if participation_type == 'team' and not sport:
-                errors.append("Please select a Team Sport.")
+            if not sport:
+                errors.append("Please select a Sport.")
             if not dates:
                 errors.append("Dates of Participation are required.")
             if not venue:
@@ -469,8 +451,19 @@ def upload_activities():
                 errors.append("Level of Competition is required.")
             if not prize:
                 errors.append("Prize selection is required.")
-            
-            # Handle file upload and errrors 
+
+            # Initialize sports data dictionary
+            sports_data = {
+                "event_name": event_name,
+                "organizer": organizer,
+                "sport": sport,
+                "dates": dates,
+                "venue": venue,
+                "competition_level": competition_level,
+                "prize": prize
+            }
+
+            # Handle file upload and errors
             file_url = ''
             if file_upload and file_upload.filename != '':
                 if allowed_file(file_upload.filename):
@@ -492,10 +485,14 @@ def upload_activities():
                         errors.append("Failed to upload the certificate/proof file.")
                 else:
                     errors.append("Invalid file type for Certificate/Proof. Allowed types: PDF, JPG, JPEG, PNG.")
-                    
 
-                # Save to Firebase Realtime Database
+            # Save to Firebase Realtime Database if no errors
+            if not errors:
                 db.reference(f'users/{user_id}/sports').push(sports_data)
+            else:
+                # Handle the errors (return or log them as needed)
+                print("Errors encountered:", errors)
+
 
         elif form_type == 'webinar_seminar':
             # Handle webinar/seminar form submission

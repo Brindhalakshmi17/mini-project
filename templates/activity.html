@@ -128,8 +128,9 @@
                         <input class="form-check-input" type="radio" name="organizerOptions" id="otherOrganizer" value="others" required>
                         <label class="form-check-label" for="otherOrganizer">Others</label>
                     </div>
-                    <input type="text" class="form-control mt-2" id="otherOrganizerName" name="otherOrganizerName" placeholder="Specify if others" >
+                    <input type="text" class="form-control mt-2" id="otherOrganizerName" name="otherOrganizerName" placeholder="Specify">
                 </div>
+
 
                 <!-- Dates of Participation -->
                 <div class="mb-3">
@@ -193,146 +194,87 @@
 
         
         <!-- Sports Event Registration Form -->
-   
-    <div class="tab-pane fade form-container sports-form" id="sports" role="tabpanel" aria-labelledby="sports-tab">
-    <form class="mt-4" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_activities') }}">
-        <input type="hidden" name="formType" value="sports">
+        <div class="tab-pane fade form-container sports-form" id="sports" role="tabpanel" aria-labelledby="sports-tab">
+            <form class="mt-4" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_activities') }}">
+                <input type="hidden" name="formType" value="sports">
         
-        <!-- Event Name -->
-        <div class="mb-3">
-            <label for="eventName" class="form-label required">Event Name</label>
-            <input type="text" class="form-control" id="eventName" name="eventName" placeholder="Enter Event Name" required>
-        </div>
-
-        <!-- Organizer -->
-        <div class="mb-3">
-            <label for="organizer" class="form-label required">Organizer</label>
-            <input type="text" class="form-control" id="organizer" name="organizer" placeholder="Enter Organizer Name" required>
-        </div>
-
-        <!-- Type of Participation -->
-        <div class="mb-3">
-            <label class="form-label required">Type of Participation</label><br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="participationType" id="individual" value="individual" checked required>
-                <label class="form-check-label" for="individual">Individual</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="participationType" id="team" value="team" required>
-                <label class="form-check-label" for="team">Team</label>
-            </div>
-        </div>
-
-        <!-- Individual Events -->
-        <div id="individualEvents" class="mb-3" style="display: block;">
-            <label class="form-label">Select Individual Event</label><br>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="individualSport" value="chess" id="chess" required>
-                <label class="form-check-label" for="chess">Chess</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="individualSport" value="badminton" id="badminton" required>
-                <label class="form-check-label" for="badminton">Badminton</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="individualSport" value="tennis" id="tennis" required>
-                <label class="form-check-label" for="tennis">Tennis</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="individualSport" value="Swimming" id="Swimming" required>
-                <label class="form-check-label" for="Swimming">Swimming</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="individualSport" value="Running" id="Running" required>
-                <label class="form-check-label" for="Running">Running</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="individualSport" value="Archery" id="Archery" required>
-                <label class="form-check-label" for="Archery">Archery</label>
-            </div>
-            <!-- Add other individual sports similarly -->
-            <!-- ... -->
+                <!-- Event Name -->
+                <div class="mb-3">
+                    <label for="eventName" class="form-label required">Event Name</label>
+                    <input type="text" class="form-control" id="eventName" name="eventName" placeholder="Enter Event Name" required>
+                </div>
+        
+                <!-- Organizer -->
+                <div class="mb-3">
+                    <label for="organizer" class="form-label required">Organizer</label>
+                    <input type="text" class="form-control" id="organizer" name="organizer" placeholder="Enter Organizer Name" required>
+                </div>
+        
+                <!-- Sports Selection -->
+                <div class="mb-3">
+                    <label for="sport" class="form-label required">Select Sport</label>
+                    <select class="form-select" id="sport" name="sport" required>
+                        <option value="">Select Sport</option>
+                        <option value="chess">Chess</option>
+                        <option value="badminton">Badminton</option>
+                        <option value="tennis">Tennis</option>
+                        <option value="swimming">Swimming</option>
+                        <option value="running">Running</option>
+                        <option value="archery">Archery</option>
+                        <option value="cricket">Cricket</option>
+                        <option value="volleyball">Volleyball</option>
+                        <!-- Add more sports options as needed -->
+                    </select>
+                </div>
+        
+                <!-- Dates of Participation -->
+                <div class="mb-3">
+                    <label for="dates" class="form-label required">Dates of Participation</label>
+                    <input type="date" class="form-control" id="dates" name="dates" required>
+                </div>
+        
+                <!-- Venue/Location -->
+                <div class="mb-3">
+                    <label for="venue" class="form-label required">Venue/Location</label>
+                    <input type="text" class="form-control" id="venue" name="venue" required>
+                </div>
+        
+                <!-- Level of Competition -->
+                <div class="mb-3">
+                    <label for="competitionLevel" class="form-label required">Level of Competition</label>
+                    <input type="text" class="form-control" id="competitionLevel" name="competitionLevel" placeholder="Enter Level (e.g., District, State)" required>
+                </div>
+        
+                <!-- Prizes -->
+                <div class="mb-3">
+                    <label for="prize" class="form-label required">Prize</label>
+                    <select class="form-select" id="prize" name="prize" required>
+                        <option value="">Select Prize</option>
+                        <option value="1st">1st Prize</option>
+                        <option value="2nd">2nd Prize</option>
+                        <option value="3rd">3rd Prize</option>
+                        <option value="participated">Participated</option>
+                    </select>
+                </div>
+        
+                <!-- File Upload -->
+                <div class="mb-3">
+                    <label for="fileUpload" class="form-label">Upload Certificate/Proof</label>
+                    <input class="form-control" type="file" id="fileUpload" name="fileUpload" accept=".pdf, .jpg, .jpeg, .png">
+                </div>
+        
+                <!-- Additional Notes -->
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Additional Notes</label>
+                    <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                </div>
+        
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
         
-        <!-- Team Events -->
-        <div id="teamEvents" class="mb-3" style="display: none;">
-            <label class="form-label">Select Team Event</label><br>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="teamSport" value="cricket" id="cricket" required>
-                <label class="form-check-label" for="cricket">Cricket</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="teamSport" value="volleyball" id="volleyball" required>
-                <label class="form-check-label" for="volleyball">Volleyball</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="teamSport" value="kabaddi" id="kabaddi" required>
-                <label class="form-check-label" for="kabaddi">Kabaddi</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="teamSport" value="football" id="football" required>
-                <label class="form-check-label" for="football">Football</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="teamSport" value="Basketball" id="Basketball" required>
-                <label class="form-check-label" for="Basketball">Basketball</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="teamSport" value="Hockey" id="Hockey" required>
-                <label class="form-check-label" for="Hockey">Hockey</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="teamSport" value="Baseball" id="Baseball" required>
-                <label class="form-check-label" for="Baseball">Baseball</label>
-            </div>
-            
-        </div>
-        <!-- Dates of Participation -->
-        <div class="mb-3">
-            <label for="dates" class="form-label required">Dates of Participation</label>
-            <input type="date" class="form-control" id="dates" name="dates" required>
-        </div>
-
-        <!-- Venue/Location -->
-        <div class="mb-3">
-            <label for="venue" class="form-label required">Venue/Location</label>
-            <input type="text" class="form-control" id="venue" name="venue" required>
-        </div>
-
-        <!-- Level of Competition -->
-        <div class="mb-3">
-            <label for="competitionLevel" class="form-label required">Level of Competition</label>
-            <input type="text" class="form-control" id="competitionLevel" name="competitionLevel" placeholder="Enter Level (e.g., District, State)" required>
-        </div>
-
-        <!-- Prizes -->
-        <div class="mb-3">
-            <label for="prize" class="form-label required">Prize</label>
-            <select class="form-select" id="prize" name="prize" required>
-                <option value="">Select Prize</option>
-                <option value="1st">1st Prize</option>
-                <option value="2nd">2nd Prize</option>
-                <option value="3rd">3rd Prize</option>
-                <option value="participated">Participated</option>
-            </select>
-        </div>
-
-        <!-- File Upload -->
-        <div class="mb-3">
-            <label for="fileUpload" class="form-label">Upload Certificate/Proof</label>
-            <input class="form-control" type="file" id="fileUpload" name="fileUpload" accept=".pdf, .jpg, .jpeg, .png">
-        </div>
-
-        <!-- Additional Notes -->
-        <div class="mb-3">
-            <label for="notes" class="form-label">Additional Notes</label>
-            <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+        
     <!---Webinar or Seminar-->
         <div class="tab-pane fade form-container Webinar_Seminar-form" id="Webinar_Seminar" role="tabpanel" aria-labelledby="Webinar_Seminar-tab">
             <form class="mt-4" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_activities') }}">
@@ -403,86 +345,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const individualRadio = document.getElementById('individual');
-        const teamRadio = document.getElementById('team');
-        const individualEvents = document.getElementById('individualEvents');
-        const teamEvents = document.getElementById('teamEvents');
-        const otherOrganizer = document.getElementById('otherOrganizer');
-        const srmOrganizer = document.getElementById('srmOrganizer');
-        const otherOrganizerName = document.getElementById('otherOrganizerName');
-    
-        // Function to toggle event display based on selected participation type
-        function toggleEvents() {
-            if (individualRadio.checked) {
-                individualEvents.style.display = 'block';
-                teamEvents.style.display = 'none';
-    
-                // Ensure teamSport inputs are unchecked when switching to individual
-                const teamInputs = teamEvents.querySelectorAll('input[type="radio"]');
-                teamInputs.forEach(input => input.checked = false);
-            } else if (teamRadio.checked) {
-                individualEvents.style.display = 'none';
-                teamEvents.style.display = 'block';
-    
-                // Ensure individualSport inputs are unchecked when switching to team
-                const individualInputs = individualEvents.querySelectorAll('input[type="radio"]');
-                individualInputs.forEach(input => input.checked = false);
-            }
-        }
-    
-        // Function to toggle input visibility based on selection value
-        function toggleInput(inputId, value) {
-            const inputElement = document.getElementById(inputId);
-            if (value === 'others') {
-                inputElement.style.display = 'block';
-            } else {
-                inputElement.style.display = 'none';
-                inputElement.value = '';  // Clear the input when hiding it
-            }
-        }
-    
-        // Initialize display based on default selection
-        toggleEvents();
-    
-        // Event listeners for radio buttons to toggle event type
-        individualRadio.addEventListener('change', toggleEvents);
-        teamRadio.addEventListener('change', toggleEvents);
-    
-        // Event listener to show or hide the additional organizer input
-        otherOrganizer?.addEventListener('change', function() {
-            toggleInput('otherOrganizerName', this.value);
-        });
-    
-        srmOrganizer?.addEventListener('change', function() {
-            otherOrganizerName.style.display = 'none';
-            otherOrganizerName.value = '';
-        });
-    
-        // Submit handler to validate form data before submission
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(event) {
-            const individualChecked = individualRadio.checked;
-            const teamChecked = teamRadio.checked;
-            
-            if (individualChecked) {
-                const individualSelected = individualEvents.querySelector('input[type="radio"]:checked');
-                if (!individualSelected) {
-                    event.preventDefault();
-                    alert("Please select an individual sport.");
-                    return;
-                }
-            } else if (teamChecked) {
-                const teamSelected = teamEvents.querySelector('input[type="radio"]:checked');
-                if (!teamSelected) {
-                    event.preventDefault();
-                    alert("Please select a team sport.");
-                    return;
-                }
-            }
-        });
-    });
-</script>
+
+
 </body>
 </html>
