@@ -11,19 +11,14 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand d-flex align-items-center" href="#">
             <img src="{{ url_for('static', filename='newlogo.png') }}" alt="Logo" class="logo">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-3">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('user_dashboard') }}">Dashboard</a>
                 </li>
-            </ul>
-            <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('upload_activities') }}">Upload Activities</a>
                 </li>
@@ -36,21 +31,75 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container mt-5">
-        <div class="dashboard-card shadow">
-            <h1 class="card-title">Welcome to Your Dashboard</h1>
-            <div class="card-body">
-                <div class="user-details">
-                    <p><strong>Email:</strong> {{ user['email'] }}</p>
-                    <p><strong>Phone Number:</strong> {{ user['phone_number'] }}</p>
-                    <p><strong>Register Number:</strong> {{ user['register_number'] }}</p>
-                    <p><strong>Department:</strong> {{ user['department'] }}</p>
-                    <p><strong>Batch:</strong> {{ user['batch'] }}</p>
+    <div class="container mt-5 mb-5">
+        <div class="dashboard-card shadow-lg rounded p-4">
+            <div class="row">
+                <!-- User Details Section -->
+                <div class="col-lg-6 mb-4">
+                    <div class="user-details p-4 rounded border">
+                        <h2 class="mb-4"> Profile  Information </h1>
+
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Email: <span>{{ user['email'] }}</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Phone Number: <span>{{ user['phone_number'] }}</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Register Number: <span>{{ user['register_number'] }}</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Department: <span>{{ user['department'] }}</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Batch: <span>{{ user['batch'] }}</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Semester: <span>{{ user['semester'] }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Activity Summary Section -->
+                <div class="col-lg-6 mb-3">
+                    <div class="activity-summary  p-4 rounded border">
+                        <h2 class="mb-4">Activity Summary</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Course Activities <span class="badge bg-primary rounded-pill">{{ activity_counts['courses'] }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Sport Activities <span class="badge bg-primary rounded-pill">{{ activity_counts['sports'] }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Technical Activities <span class="badge bg-primary rounded-pill">{{ activity_counts['technical'] }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Non-Technical Activities <span class="badge bg-primary rounded-pill">{{ activity_counts['non_technical'] }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Webinars <span class="badge bg-primary rounded-pill">{{ activity_counts['webinars'] }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Seminars <span class="badge bg-primary rounded-pill">{{ activity_counts['seminars'] }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Workshops <span class="badge bg-primary rounded-pill">{{ activity_counts['workshops'] }}</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3">
+        <div class="container text-center">
+            <span class="text-muted">© 2023 ActivityPlus. All rights reserved.</span>
+        </div>
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

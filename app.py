@@ -16,7 +16,7 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
-    
+   
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -25,7 +25,7 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
-  
+ 
 })
 tutor_ref = db.reference('tutors')
 @app.route('/tutor_dashboard')
@@ -140,7 +140,7 @@ def signup():
         phone_number = request.form['phone_number']
         department = request.form['department']
         batch = request.form['batch']
-        year_start = request.form['year_start']
+        semester = request.form['semester']
         year_end = request.form['year_end']
         
         # Email validation
@@ -155,10 +155,8 @@ def signup():
 
         # Year validation: ensure year_end is greater than year_start
         try:
-            year_start = int(year_start)
-            year_end = int(year_end)
-            if year_end < year_start:
-                flash("Year of end must be greater than or equal to year of start.", "danger")
+            if int(year_end) <= 2023:
+                flash("Year of end is not valid. Please try again.", "danger")
                 return render_template('signup.html')
         except ValueError:
             flash("Please enter valid numeric values for years.", "danger")
@@ -193,7 +191,7 @@ def signup():
                 'email': email,
                 'department': department,
                 'batch': batch,
-                'year_start': year_start,
+                'semester':semester,
                 'year_end': year_end,
                 'joined': '2024-01-01'  # Example joined date
             }
@@ -291,12 +289,56 @@ def get_user_data(user_id):
 def user_dashboard():
     if 'user' not in session:
         return redirect(url_for('login'))
-    
+
     user_id = session['user']['localId']
+    
+    # Fetch user data from Firebase
     user_data = get_user_data(user_id)
-    if user_data:
-        return render_template('dashboard.html', user=user_data)
-    return "User not found", 404
+    if not user_data:
+        flash("User data not found. Please try again.", "danger")
+        return redirect(url_for('login'))
+    
+    # Define activity counts for available categories
+    activity_counts = {
+        "courses": 0,
+        "sports": 0,
+        "technical": 0,        # New category for technical events
+        "non_technical": 0,     # New category for non-technical events
+        "webinars": 0,          # New category for webinars
+        "seminars": 0,          # New category for seminars
+        "workshops": 0          # New category for workshops
+    }
+
+    # Check and count activities in each category
+    if "courses" in user_data:
+        activity_counts["courses"] = len(user_data["courses"])
+    
+    if "sports" in user_data:
+        activity_counts["sports"] = len(user_data["sports"])
+
+    # Count technical and non-technical events
+    if "events" in user_data:
+        for event in user_data["events"].values():
+            if event["event_type"] == "technical":
+                activity_counts["technical"] += 1
+            elif event["event_type"] == "non-technical":
+                activity_counts["non_technical"] += 1
+
+    # Count webinars, seminars, and workshops
+    if "webinar_seminar" in user_data:
+        for event in user_data["webinar_seminar"].values():
+        # Normalize the event type to lowercase for comparison
+            event_type = event["event_type"].lower()
+            
+            if event_type == "webinar":
+                activity_counts["webinars"] += 1
+            elif event_type == "seminar":
+                activity_counts["seminars"] += 1
+            elif event_type == "workshop":
+                activity_counts["workshops"] += 1
+
+    return render_template('dashboard.html', user=user_data, activity_counts=activity_counts)
+
 
 @app.route('/logout', methods=["POST", "GET"])
 def logout():
@@ -500,7 +542,6 @@ def upload_activities():
             event_name = request.form.get('eventName')
             participation_type = request.form.get('participationType')
             organizer = request.form.get('organizerOptions')
-            other_organizer_name = request.form.get('otherOrganizerName', '')
             participation_dates = request.form.get('participationDates')
             venue_location = request.form.get('venueLocation')
             certificate = request.files.get('certificate')
@@ -510,7 +551,6 @@ def upload_activities():
                     "event_name": event_name,
                     "participation_type": participation_type,
                     "organizer": organizer,
-                    "other_organizer_name": other_organizer_name,
                     "participation_dates": participation_dates,
                     "venue_location": venue_location
                 }
