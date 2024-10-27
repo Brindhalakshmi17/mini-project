@@ -18,7 +18,11 @@ body {
 .container {
     max-width: 400px;
 }
-
+.logo{
+    height: 100px;
+    width: 300px;
+    padding-bottom: 20px;
+}
 /* Card Style */
 .card {
     border-radius: 10px; /* Rounded corners */
@@ -32,8 +36,8 @@ body {
     background-color: #007bff; /* Bootstrap primary color */
     color: white;
     border-bottom: 1px solid #dee2e6; /* Light border for separation */
-    padding: 15px;
-    font-size: 24px; /* Larger font size for header */
+    padding: 10px;
+    font-size: 22px; /* Larger font size for header */
 }
 
 /* Card Body */

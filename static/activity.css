@@ -16,6 +16,9 @@ body {
     background-color: #f8f9fa; /* Light background color */
     color: #333; /* Dark text color */
 }
+.nav-item{
+    margin-left: 20px;
+}
 /* Logo */
 .logo {
     height: 60px;

@@ -53,7 +53,7 @@ h1, h2 {
     padding-right: 10px;
 }
 .user-details p, .activity-summary ul {
-    font-size: 16px;
+    font-size: 20px;
 }
 
 /* Activity Summary Styling */
@@ -93,4 +93,8 @@ h1, h2 {
     .user-details p, .activity-summary ul {
         font-size: 14px;
     }
+}
+
+.badge{
+    padding: 10px;
 }

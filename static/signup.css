@@ -8,26 +8,6 @@ body {
     color: white;
 }
 
-/* Custom container class for width control */
-.custom-container {
-    max-width: 900px; /* Ensure width is forced */
-    width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff; /* Use a white background for better visibility */
-    border-radius: 8px; /* Add rounded corners */
-    border: 2px solid #007bff; /* Blue border around the form */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Stronger shadow for better visibility */
-    color: black; /* Adjust text color inside the form */
-}
-
-/* Center logo styling */
-.signin-image {
-    max-width: 200px; /* Adjust logo size */
-    height: auto;
-    margin-bottom: 20px;
-}
-
 /* Make form fields more compact and visible */
 .form-control {
     margin-bottom: 15px;

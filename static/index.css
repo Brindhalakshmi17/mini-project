@@ -13,6 +13,20 @@ body {
     /*padding-top: 50px;            /* Remove default body margin */
 }
 
+h2 {
+    color: #007acc;
+}
+
+p {
+    font-size: 1em;
+    margin: 15px 0;
+}
+.cta {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #17a2f8;
+}
+
 /* Logo styling */
 .logo {
     max-width: 400px;
@@ -37,7 +51,7 @@ a.btn:hover {
 
 /* Margin for main container */
 .container {
-    background-color: #00000097;; /* Slight white overlay for readability */
+    background-color: #000000bd;; /* Slight white overlay for readability */
     padding: 20px;
     border-radius: 8px;
     max-width: 600px;

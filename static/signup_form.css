@@ -21,9 +21,8 @@ body {
 }
 
 .signin-image {
-    max-width: 300px;
+    max-width: 600px;
     height: auto;
-    border-radius: 50%;
 }
 
 /* Styling the form container */
@@ -37,13 +36,15 @@ body {
 }
 
 /* Headings */
-h1 {
+h2 {
     color: #007bff;
-    margin-bottom: 20px; /* Add more space below the heading */
+    margin-bottom: 10px; /* Add more space below the heading */
     text-align: center;
-    
-
+    background-color: rgb(253, 253, 253); 
+    border-radius: 5px;  
+    padding: 5px;
 }
+
 /* Input fields */
 input[type="text"],
 input[type="email"],

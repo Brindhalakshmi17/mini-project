@@ -16,7 +16,6 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
-   
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -602,7 +601,7 @@ def tutor_students(tutor_id):
 
     # Get tutor's department and batch
     tutor_department = tutor.get("department")
-    tutor_batch = tutor.get("branch")
+    tutor_batch = tutor.get("batch")
 
     # Fetch all students from the Firebase database
     students = database.child("users").get().val()

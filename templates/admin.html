@@ -56,7 +56,7 @@
                         <td>{{ tutor.name }}</td>
                         <td>{{ tutor.email }}</td>
                         <td>{{ tutor.department }}</td>
-                        <td>{{ tutor.branch }}</td>
+                        <td>{{ tutor.batch }}</td>
                         <td>{{ tutor.phone }}</td>
                         <td>
                             <button class="btn btn-secondary btn-sm" onclick="editTutor('{{ tutor_id }}', '{{ tutor.name }}', '{{ tutor.email }}', '{{ tutor.department }}', '{{ tutor.branch }}', '{{ tutor.phone }}')">Edit</button>
@@ -79,7 +79,7 @@
             document.getElementById('name').value = name;
             document.getElementById('email').value = email;
             document.getElementById('department').value = department;
-            document.getElementById('branch').value = branch;
+            document.getElementById('batch').value = batch;
             document.getElementById('phone').value = phone;
         }
     </script>
