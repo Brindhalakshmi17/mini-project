@@ -16,6 +16,7 @@ app.secret_key = "YourSecretKey"
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
+  
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -24,7 +25,7 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
- 
+  
 })
 tutor_ref = db.reference('tutors')
 @app.route('/tutor_dashboard')
@@ -139,8 +140,8 @@ def signup():
         phone_number = request.form['phone_number']
         department = request.form['department']
         batch = request.form['batch']
-        semester = request.form['semester']
         year_end = request.form['year_end']
+        year_start=request.form['year_start']
         
         # Email validation
         if not is_valid_email(email):
@@ -154,7 +155,7 @@ def signup():
 
         # Year validation: ensure year_end is greater than year_start
         try:
-            if int(year_end) <= 2023:
+            if int(year_end) < int(year_start):
                 flash("Year of end is not valid. Please try again.", "danger")
                 return render_template('signup.html')
         except ValueError:
@@ -190,7 +191,7 @@ def signup():
                 'email': email,
                 'department': department,
                 'batch': batch,
-                'semester':semester,
+                'year_start':year_start,
                 'year_end': year_end,
                 'joined': '2024-01-01'  # Example joined date
             }
