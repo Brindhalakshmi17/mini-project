@@ -25,7 +25,7 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
-  
+ 
 })
 tutor_ref = db.reference('tutors')
 @app.route('/tutor_dashboard')
@@ -614,6 +614,25 @@ def tutor_students(tutor_id):
             filtered_students.append(student_data)
 
     return render_template('tutor_students.html', students=filtered_students, tutor=tutor)
+
+def get_student_by_email(email):
+    # Fetch all users and filter by email
+    users_ref = db.reference('users')
+    all_users = users_ref.get()
+    
+    for user_id, user_data in all_users.items():
+        if user_data.get("email") == email:
+            return user_data  # Return the matched student data
+    
+    return None  # Return None if no student with the email is found
+
+@app.route('/student_details/<email>', methods=['GET'])
+def student_details(email):
+    students = get_student_by_email(email)
+    
+    if students:
+        return render_template('student_details.html', student=students)
+    return "Student not found", 404
 
 
 if __name__ == '__main__':
