@@ -4,91 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='student_details.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
         <h2 class="mb-4">Student Details</h2>
+       
+        
         <div class="row">
             <div class="col-md-8 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ student['name'] }}</h5>
-                        <p><strong>Department:</strong> {{ student['department'] }}</p>
-                        <p><strong>Batch:</strong> {{ student['batch'] }}</p>
-                        <p><strong>Email:</strong> <a href="mailto:{{ student['email'] }}">{{ student['email'] }}</a></p>
-                        <p><strong>Phone:</strong> {{ student['phone_number'] }}</p>
-                        <p><strong>Register Number:</strong> {{ student['register_number'] }}</p>
-                        <p><strong>Year Start:</strong> {{ student['year_start'] }}</p>
-                        <p><strong>Year End:</strong> {{ student['year_end'] }}</p>
+    <h5 class="card-title">{{ student['name'] }}</h5>
+    <ol>
+        <li><strong>Department:</strong> {{ student['department'] }}</li>
+        <li><strong>Batch:</strong> {{ student['batch'] }}</li>
+        <li><strong>Email:</strong> <a href="mailto:{{ student['email'] }}">{{ student['email'] }}</a></li>
+        <li><strong>Phone:</strong> {{ student['phone_number'] }}</li>
+        <li><strong>Register Number:</strong> {{ student['register_number'] }}</li>
+        <li><strong>Year Start:</strong> {{ student['year_start'] }}</li>
+        <li><strong>Year End:</strong> {{ student['year_end'] }}</li>
+    </ol>
 
-                        {% if student.get('courses') %}
-                            <h6>Courses</h6>
-                            <ul>
-                                {% for course_id, course in student['courses'].items() %}
-                                    <li>
-                                        <strong>Course Name:</strong> {{ course['course_name'] }}<br>
-                                        <strong>Completion Date:</strong> {{ course['completion_date'] }}<br>
-                                        <strong>Platform:</strong> {{ course['platform'] }}<br>
-                                        <strong>Skills Gained:</strong> {{ course['skills_gained'] }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
+    {% if student.get('courses') %}
+        <h6>Courses</h6>
+        <table class="table-activity">
+            <tr>
+                <th>Course Name</th>
+                <th>Completion Date</th>
+                <th>Platform</th>
+                <th>Skills Gained</th>
+            </tr>
+            {% for course_id, course in student['courses'].items() %}
+            <tr>
+                <td>{{ course['course_name'] }}</td>
+                <td>{{ course['completion_date'] }}</td>
+                <td>{{ course['platform'] }}</td>
+                <td>{{ course['skills_gained'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 
-                        {% if student.get('events') %}
-                            <h6>Events</h6>
-                            <ul>
-                                {% for event_id, event in student['events'].items() %}
-                                    <li>
-                                        <strong>Event Name:</strong> {{ event['event_name'] }}<br>
-                                        <strong>Type:</strong> {{ event['event_type'] }}<br>
-                                        <strong>Achievement Level:</strong> {{ event['achievement_level'] }}<br>
-                                        <strong>Venue Location:</strong> {{ event['venue_location'] }}<br>
-                                        <strong>Dates:</strong> {{ event['participation_dates'] }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
+    {% if student.get('events') %}
+        <h6>Events</h6>
+        <table class="table-activity">
+            <tr>
+                <th>Event Name</th>
+                <th>Type</th>
+                <th>Achievement Level</th>
+                <th>Venue Location</th>
+                <th>Dates</th>
+            </tr>
+            {% for event_id, event in student['events'].items() %}
+            <tr>
+                <td>{{ event['event_name'] }}</td>
+                <td>{{ event['event_type'] }}</td>
+                <td>{{ event['achievement_level'] }}</td>
+                <td>{{ event['venue_location'] }}</td>
+                <td>{{ event['participation_dates'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 
-                        {% if student.get('webinar_seminar') %}
-                            <h6>Webinars & Seminars</h6>
-                            <ul>
-                                {% for ws_id, ws in student['webinar_seminar'].items() %}
-                                    <li>
-                                        <strong>Event Name:</strong> {{ ws['event_name'] }}<br>
-                                        <strong>Type:</strong> {{ ws['event_type'] }}<br>
-                                        <strong>Organizer:</strong> {{ ws['organizer'] }}<br>
-                                        <strong>Other Organizer:</strong> {{ ws['other_organizer_name'] or "N/A" }}<br>
-                                        <strong>Participation Dates:</strong> {{ ws['participation_dates'] }}<br>
-                                        <strong>Participation Type:</strong> {{ ws['participation_type'] }}<br>
-                                        <strong>Venue Location:</strong> {{ ws['venue_location'] }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
+    {% if student.get('webinar_seminar') %}
+        <h6>Webinars & Seminars</h6>
+        <table class="table-activity">
+            <tr>
+                <th>Event Name</th>
+                <th>Type</th>
+                <th>Organizer</th>
+                <th>Other Organizer</th>
+                <th>Participation Dates</th>
+                <th>Participation Type</th>
+                <th>Venue Location</th>
+            </tr>
+            {% for ws_id, ws in student['webinar_seminar'].items() %}
+            <tr>
+                <td>{{ ws['event_name'] }}</td>
+                <td>{{ ws['event_type'] }}</td>
+                <td>{{ ws['organizer'] }}</td>
+                <td>{{ ws['other_organizer_name'] or "N/A" }}</td>
+                <td>{{ ws['participation_dates'] }}</td>
+                <td>{{ ws['participation_type'] }}</td>
+                <td>{{ ws['venue_location'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 
-                        {% if student.get('sports') %}
-                            <h6>Sports</h6>
-                            <ul>
-                                {% for sport_id, sport in student['sports'].items() %}
-                                    <li>
-                                        <strong>Sport:</strong> {{ sport['sport'] }}<br>
-                                        <strong>Event Name:</strong> {{ sport['event_name'] }}<br>
-                                        <strong>Competition Level:</strong> {{ sport['competition_level'] }}<br>
-                                        <strong>Organizer:</strong> {{ sport['organizer'] }}<br>
-                                        <strong>Prize:</strong> {{ sport['prize'] }}<br>
-                                        <strong>Venue:</strong> {{ sport['venue'] }}<br>
-                                        <strong>Dates:</strong> {{ sport['dates'] }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    {% if student.get('sports') %}
+        <h6>Sports</h6>
+        <table class="table-activity">
+            <tr>
+                <th>Sport</th>
+                <th>Event Name</th>
+                <th>Competition Level</th>
+                <th>Organizer</th>
+                <th>Prize</th>
+                <th>Venue</th>
+                <th>Dates</th>
+            </tr>
+            {% for sport_id, sport in student['sports'].items() %}
+            <tr>
+                <td>{{ sport['sport'] }}</td>
+                <td>{{ sport['event_name'] }}</td>
+                <td>{{ sport['competition_level'] }}</td>
+                <td>{{ sport['organizer'] }}</td>
+                <td>{{ sport['prize'] }}</td>
+                <td>{{ sport['venue'] }}</td>
+                <td>{{ sport['dates'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
