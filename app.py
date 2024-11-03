@@ -8,15 +8,21 @@ from firebase_admin import credentials, db, storage
 import os
 import uuid
 from werkzeug.utils import secure_filename
-
+from dash import Dash, html, dcc
+from dash.dependencies import Input, Output
+import firebase_admin
+from firebase_admin import credentials, db
+import pandas as pd
+import plotly.express as px
+from sklearn.cluster import KMeans
 
 app = Flask(__name__)
 app.secret_key = "YourSecretKey"
 
+
 # Initialize Firebase
 firebaseConfig = {
    #paste 1
-  
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
@@ -25,7 +31,6 @@ database = firebase.database()
 cred = credentials.Certificate("firebase_key.json")
 firebase_admin.initialize_app(cred, {
   #paste 2
- 
 })
 tutor_ref = db.reference('tutors')
 @app.route('/tutor_dashboard')
@@ -45,7 +50,165 @@ def tutor_dashboard():
     else:
         return "Tutor not found", 404
 
+def fetch_and_process_data():
+    users_ref = db.reference('users')
+    users_data = users_ref.get()  # Retrieve all user data
 
+    # Initialize lists to store flattened data
+    users_list = []
+    events_list = []
+    courses_list = []
+    sports_list = []
+    webinars_list = []
+
+    for user_id, user_info in users_data.items():
+        user_basic_info = {
+            "user_id": user_id,
+            "name": user_info.get("name"),
+            "email": user_info.get("email"),
+            "department": user_info.get("department"),
+            "batch": user_info.get("batch"),
+            "year_start": user_info.get("year_start"),
+            "year_end": user_info.get("year_end")
+        }
+        users_list.append(user_basic_info)
+
+        # Parse nested events data
+        events = user_info.get("events", {})
+        for event_id, event_info in events.items():
+            event_info.update({"user_id": user_id, "event_id": event_id})
+            events_list.append(event_info)
+
+        # Parse nested courses data
+        courses = user_info.get("courses", {})
+        for course_id, course_info in courses.items():
+            course_info.update({"user_id": user_id, "course_id": course_id})
+            courses_list.append(course_info)
+
+        # Parse nested sports data
+        sports = user_info.get("sports", {})
+        for sport_id, sport_info in sports.items():
+            sport_info.update({"user_id": user_id, "sport_id": sport_id})
+            sports_list.append(sport_info)
+
+        # Parse nested webinars/seminars data
+        webinars = user_info.get("webinar_seminar", {})
+        for webinar_id, webinar_info in webinars.items():
+            webinar_info.update({"user_id": user_id, "webinar_id": webinar_id})
+            webinars_list.append(webinar_info)
+
+    # Convert lists to pandas DataFrames
+    users_df = pd.DataFrame(users_list)
+    events_df = pd.DataFrame(events_list)
+    courses_df = pd.DataFrame(courses_list)
+    sports_df = pd.DataFrame(sports_list)
+    webinars_df = pd.DataFrame(webinars_list)
+
+    return users_df, events_df, courses_df, sports_df, webinars_df
+
+# Fetch and process data from Firebase
+users_df, events_df, courses_df, sports_df, webinars_df = fetch_and_process_data()
+
+# Feature engineering: Calculate engagement counts for each user
+users_df['event_count'] = users_df['user_id'].map(events_df['user_id'].value_counts())
+users_df['course_count'] = users_df['user_id'].map(courses_df['user_id'].value_counts())
+users_df['sports_count'] = users_df['user_id'].map(sports_df['user_id'].value_counts())
+users_df['webinar_count'] = users_df['user_id'].map(webinars_df['user_id'].value_counts())
+users_df.fillna(0, inplace=True)  # Fill NaN values with 0
+
+# Clustering: Create clusters based on engagement metrics
+X = users_df[['event_count', 'course_count', 'sports_count', 'webinar_count']]
+kmeans = KMeans(n_clusters=3, random_state=42)
+users_df['cluster'] = kmeans.fit_predict(X)
+
+# Create Dash app
+dash_app = Dash(server=app, name="User Engagement Dashboard", url_base_pathname="/dashboard/")
+
+# Layout of the Dash app
+dash_app.layout = html.Div([
+    html.H1("User Engagement Dashboard"),
+    html.Label("Select Department:"),
+    dcc.Dropdown(
+        id='department-dropdown',
+        options=[{'label': dept, 'value': dept} for dept in users_df['department'].unique()],
+        multi=True,
+        placeholder="Filter by department..."
+    ),
+
+    # Arrange graphs in a 2x2 grid
+    html.Div([
+        html.Div(dcc.Graph(id='department-pie-chart'), style={'display': 'inline-block', 'width': '48%'}),
+        html.Div(dcc.Graph(id='year-participation-line-chart'), style={'display': 'inline-block', 'width': '48%'}),
+    ], style={'display': 'flex', 'flex-wrap': 'wrap', 'justify-content': 'space-around'}),
+
+    html.Div([
+        html.Div(dcc.Graph(id='activity-bar-chart'), style={'display': 'inline-block', 'width': '48%'}),
+        html.Div(dcc.Graph(id='average-engagement-cluster-chart'), style={'display': 'inline-block', 'width': '48%'}),
+    ], style={'display': 'flex', 'flex-wrap': 'wrap', 'justify-content': 'space-around'})
+])
+
+# Callback to update pie chart based on department filter
+@dash_app.callback(
+    Output('department-pie-chart', 'figure'),
+    Input('department-dropdown', 'value')
+)
+def update_pie_chart(selected_departments):
+    filtered_df = users_df[users_df['department'].isin(selected_departments)] if selected_departments else users_df
+    activity_counts = {
+        "Events": filtered_df['event_count'].sum(),
+        "Courses": filtered_df['course_count'].sum(),
+        "Sports": filtered_df['sports_count'].sum(),
+        "Webinars": filtered_df['webinar_count'].sum(),
+    }
+    fig = px.pie(names=list(activity_counts.keys()), values=list(activity_counts.values()),
+                  title="Department-wise Activity Count")
+    return fig
+
+# Callback to update line chart for year-wise participation
+@dash_app.callback(
+    Output('year-participation-line-chart', 'figure'),
+    Input('department-dropdown', 'value')
+)
+def update_line_chart(selected_departments):
+    filtered_df = users_df[users_df['department'].isin(selected_departments)] if selected_departments else users_df
+    year_participation = filtered_df.groupby(['year_start'])[['event_count', 'course_count', 'sports_count', 'webinar_count']].sum().reset_index()
+    fig = px.line(year_participation, x='year_start', y=['event_count', 'course_count', 'sports_count', 'webinar_count'],
+                  title="Year-wise Participation in Activities",
+                  labels={'value': 'Count', 'year_start': 'Year'},
+                  markers=True)
+    return fig
+
+# Callback to update bar chart for activity by type
+@dash_app.callback(
+    Output('activity-bar-chart', 'figure'),
+    Input('department-dropdown', 'value')
+)
+def update_bar_chart(selected_departments):
+    filtered_df = users_df[users_df['department'].isin(selected_departments)] if selected_departments else users_df
+    activity_totals = {
+        "Events": filtered_df['event_count'].sum(),
+        "Courses": filtered_df['course_count'].sum(),
+        "Sports": filtered_df['sports_count'].sum(),
+        "Webinars": filtered_df['webinar_count'].sum(),
+    }
+    fig = px.bar(x=list(activity_totals.keys()), y=list(activity_totals.values()),
+                  title="Total Activities Done by Type",
+                  labels={'x': 'Activity Type', 'y': 'Total Count'})
+    return fig
+
+# Callback to update cluster engagement chart
+@dash_app.callback(
+    Output('average-engagement-cluster-chart', 'figure'),
+    Input('department-dropdown', 'value')
+)
+def update_cluster_chart(selected_departments):
+    filtered_df = users_df[users_df['department'].isin(selected_departments)] if selected_departments else users_df
+    cluster_averages = filtered_df.groupby('cluster')[['event_count', 'course_count', 'sports_count', 'webinar_count']].mean().reset_index()
+    fig = px.bar(cluster_averages, x='cluster', y=['event_count', 'course_count', 'sports_count', 'webinar_count'],
+                  title="Average Engagement by Cluster",
+                  labels={'value': 'Average Count', 'cluster': 'Cluster'},
+                  barmode='group')
+    return fig
 # Email validation function
 def is_valid_email(email):
     return re.match(r"[^@]+@srmist\.edu\.in", email)
