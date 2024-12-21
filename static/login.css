@@ -52,8 +52,7 @@ body {
     border: 1px solid #ced4da; /* Light border for inputs */
     padding: 10px; /* Padding inside input fields */
     margin-bottom: 15px; /* Space between fields */
-    color: #fff; /* Text color inside input fields */
-    background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white background for input */
+    color: black; /* Text color inside input fields */  
 }
 
 /* Label Color */
