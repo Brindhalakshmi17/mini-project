@@ -66,6 +66,13 @@ body {
     color: white; /* White text for better visibility */
 }
 
+
+h2 {
+        color: #ffcc00;
+        margin-bottom: 20px;
+}
+
+
 .form-check-input {
     margin-right: 5px; /* Space between radio button and label */
 }

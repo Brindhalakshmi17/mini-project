@@ -6,30 +6,31 @@ body {
     background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
     color: #333;
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
 }
 /* Centering the image container */
 .image-container {
+    margin: 0;
     display: flex;
     justify-content: center;
-    margin-bottom: 15px;
     text-align: center; /* Align content in the center */
 }
-
-.signin-image {
-    max-width: 600px;
-    height: auto;
+/* Styling the image */
+.image-container img {
+    width: 50%;
+    height: 100px;
 }
-
 /* Styling the form container */
 .container {
+    font-size: smaller;
     max-width: 360px;
     margin: 0px auto;
-    padding: 20px;
+    padding: 10px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -40,8 +41,7 @@ h2 {
     color: #007bff;
     margin-bottom: 10px; /* Add more space below the heading */
     text-align: center;
-    background-color: rgb(253, 253, 253); 
-    border-radius: 5px;  
+    border-radius: 5px;
     padding: 5px;
 }
 

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
     <style>
         .flash-message {
-            margin-bottom: 1rem;
             font-size: 0.875rem;
         }
     </style>
@@ -34,7 +33,9 @@
                 </div>
 
                 <form class="login-form" action="/login" method="POST">
-                    
+                    <div class="text-center mb-4">
+                        <h2>Login</h2>
+                    </div>
                     <div class="mb-3">
                         <input class="form-control" type="email" name="email" id="email" placeholder="Enter your SRMIST email" required>
                     </div>

@@ -1,39 +1,80 @@
-/* Add a black background to the body */
 body {
-    background-color: #000000;
+    background: url('../static/SRM.jpg') no-repeat center center fixed;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
-    color: white;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
 }
 
-/* Make form fields more compact and visible */
-.form-control {
-    margin-bottom: 15px;
-    border: 2px solid #007bff; /* Blue border for form fields */
-    background-color: #f8f9fa; /* Light gray background for inputs */
+.custom-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 90%;
+    max-width: 800px;
+    padding: 30px;
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
 }
 
-/* Submit Button */
+.image-container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: 100px;
+}
+
+h2 {
+    color: #ffcc00;
+    margin-bottom: 20px;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
 .submit-btn {
-    margin-top: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
     padding: 10px;
-    font-size: 16px;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Change color for 'Already have an account?' text */
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
 .login-text {
-    color: #ffcc00; /* Bright yellow for better visibility */
-    font-size: 16px; /* Optional: adjust font size */
-    background-color: rgba(255, 255, 255, 0.7); /* Light background for contrast */
-    padding: 5px; /* Add some padding around the text */
-    border-radius: 4px; /* Optional: rounded corners for the background */
+    color:white;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 4px;
+    text-align: center;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-    .row {
-        flex-direction: column;
+    .custom-container {
+        padding: 20px;
     }
+}
+
+.alert {
+    margin-top: 10px;
+}
+
+.alert-dismissible {
+    padding-right: 25px;
 }

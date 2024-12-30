@@ -12,67 +12,94 @@ body {
     color: #fff;
 }
 
-/* Logo and Brand Text */
+/* Logo and Navbar */
 .logo {
     height: 50px;
     width: auto;
 }
-.brand-text {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-/* Navbar Link Styling */
 .navbar-dark .navbar-nav .nav-link {
     color: #ccc !important;
-    font-size: 20px;
-    transition: color 0.3s, transform 0.3s;
+    font-size: 18px;
+    padding: 0 15px;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
-
 .navbar-dark .navbar-nav .nav-link:hover {
     color: #17a2b8 !important;
     transform: scale(1.1);
 }
 
-/* Dashboard Card Styling */
+/* Dashboard Container */
 .dashboard-card {
-    background-color: rgba(0, 0, 0, 0.8); /* Black with opacity */
+    background-color: rgba(0, 0, 0, 0.85); /* Slightly opaque black */
     border-radius: 10px;
-    padding: 20px;
+    padding: 30px;
     color: #ffffff;
-    margin-top: 50px;
-    height: inherit;
+    margin-top: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* Section Headings */
 h1, h2 {
     color: #ffffff;
-}
-.nav-item{
-    padding-left: 40px;
-    padding-right: 10px;
-}
-.user-details p, .activity-summary ul {
-    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
-/* Activity Summary Styling */
-.activity-summary .list-group-item {
-    background-color: transparent;
-    border: none;
-    color: #ffffff;
-    font-size: 16px;
+/* User Details Section */
+.user-details {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Light transparent overlay */
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
-.list-group-item{
-    background-color:transparent;
+.user-details h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.user-details .list-group-item {
+    background-color: transparent;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.user-details .list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
     color: #fff;
 }
 
-/* Hover Effects */
-.list-group-item:hover {
+/* Activity Summary Section */
+.activity-summary {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+.activity-summary h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.activity-summary .list-group-item {
+    background-color: transparent;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.activity-summary .list-group-item:hover {
     background-color: rgba(255, 255, 255, 0.2);
-    transition: background-color 0.3s ease;
-    color: #ffffff;
+}
+
+/* Badges */
+.badge {
+    background-color: #17a2b8;
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 12px;
 }
 
 /* Footer Styling */
@@ -82,19 +109,32 @@ h1, h2 {
     position: fixed;
     bottom: 0;
     width: 100%;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 14px;
 }
 
-/* Responsive adjustments */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .dashboard-card {
+        padding: 20px;
+    }
+    .user-details, .activity-summary {
         padding: 15px;
     }
-
-    .user-details p, .activity-summary ul {
-        font-size: 14px;
+    h1, h2 {
+        font-size: 20px;
     }
-}
-
-.badge{
-    padding: 10px;
+    .navbar-dark .navbar-nav .nav-link {
+        font-size: 16px;
+        padding: 5px;
+    }
+    .user-details .list-group-item, .activity-summary .list-group-item {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+    .badge {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
 }

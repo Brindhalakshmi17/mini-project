@@ -14,7 +14,13 @@
         <a class="navbar-brand d-flex align-items-center" href="#">
             <img src="{{ url_for('static', filename='newlogo.png') }}" alt="Logo" class="logo">
         </a>
-        <div class="collapse navbar-collapse">
+        <!-- Toggler Button for Collapsible Navbar -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Collapsible Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-3">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('user_dashboard') }}">Dashboard</a>
@@ -30,7 +36,7 @@
             </ul>
         </div>
     </nav>
-
+    
     <div class="container mt-5 ">
         <div class="dashboard-card shadow-lg rounded p-4">
             <div class="row">
@@ -42,6 +48,9 @@
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Email: <span>{{ user['email'] }}</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                Name: <span>{{user['name']}}</span>
                             </a>
                             <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 Phone Number: <span>{{ user['phone_number'] }}</span>
@@ -56,8 +65,9 @@
                                 Batch: <span>{{ user['batch'] }}</span>
                             </a>
                             <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                Semester: <span>3</span>
+                                Semester: <span>{{user['semester']}}</span>
                             </a>
+
                         </div>
                     </div>
                 </div>
